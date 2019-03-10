@@ -89,10 +89,10 @@
 
     <app-route
       route="[[_route]]"
-      pattern="/:page"
+      pattern="/:projectId"
       data="{{routeData}}"
-      tail="{{subRoute}}"
-    ></app-route>
+<!--       tail="{{subRoute}}"
+ -->    ></app-route>
 
     <<hero-block
       background-image="{$ heroSettings.speakers.background.image $}"
@@ -121,7 +121,7 @@
     <div class="container">
       <template is="dom-repeat" items="[[projects]]" as="project">
         <a class="project card"
-           href$="/project/[[project.id]]/"
+           href$="/fundraiser/[[project.id]]/"
            ga-on="click"
            ga-event-category="project"
            ga-event-action="open details"
@@ -175,6 +175,10 @@
             type: Array,
             statePath: 'projects.list',
           },
+          projectsMap: {
+            type: Object,
+            statePath: 'projects.obj',
+          },
           projectsFetching: {
             type: Boolean,
             statePath: 'projects.fetching',
@@ -188,12 +192,17 @@
             value: 0.2,
           },
           snapshotUnsubscribe: Function,
+          user: {
+            type: Object,
+            statePath: 'user',
+          },          
         };
       }
 
       static get observers() {
         return [
           '_projectsChanged(projects)',
+          '_openProjectDetails(active, projects, projectsMap, routeData.projectId)',
         ];
       }
 
@@ -241,22 +250,53 @@
       }
 
       _add() {
-        let data = {
-          name: "pizza",
-          description: "pepperoni",
-          contributions: [],
+        let userData = {};
+
+        if (this.user.signedIn) {
+          const fullNameSplit = this.user.displayName.split(' ');
+          userData = {
+            firstFieldValue: fullNameSplit[0],
+            secondFieldValue: fullNameSplit[1],
+          };
         }
+      
+        dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
+            title: 'Submit a project!',
+            submitLabel: ' Submit!',
+            firstFieldLabel: 'Project Title',
+            secondFieldLabel: 'Project Description',
+            firstFieldValue: userData.firstFieldValue,
+            secondFieldValue: userData.secondFieldValue,
+            submit: (data) => this._subscribeAction(data),
+        });
+      }
+
+      _subscribeAction(data) {
         this.dispatch(fundraiserActions.create(data));
       }
 
-      _routeChanged(active, route) {
-        if (active && route) {
-          this.scrollToY(0, 200);
-          this.set('subRoute', {});
-          this.set('_route', route);
-          routingActions.setSubRoute(this.routeData.page);
+      // _routeChanged(active, route) {
+      //   if (active && route) {
+      //     this.scrollToY(0, 200);
+      //     this.set('subRoute', {});
+      //     this.set('_route', route);
+      //     routingActions.setSubRoute(this.routeData.page);
+      //   }
+      // }
+
+      _openProjectDetails(active, projects, projectsMap, id) {
+        if (projects && projects.length) {
+          requestAnimationFrame(() => {
+            if (active && id) {
+              const projectData = projectsMap[id];
+              projectData && dialogsActions.openDialog(DIALOGS.PROJECT, projectData);
+            } else if (this.isDialogOpened) {
+              dialogsActions.closeDialog(DIALOGS.PROJECT);
+            }
+          });
         }
       }
+
     }
 
     window.customElements.define(FundraiserPage.is, FundraiserPage);

@@ -17,6 +17,8 @@ const DIALOGS = {
   SESSION: 'session',
   SUBSCRIBE: 'subscribe',
   SIGNIN: 'signin',
+  NEW_PROJECT: 'newProject',
+  PROJECT: 'project',
 };
 // toast
 const SHOW_TOAST = 'app/Toast/SHOW_TOAST';

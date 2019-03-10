@@ -265,6 +265,13 @@
       no-cancel-on-outside-click="[[viewport.isPhone]]"
     ></speaker-details>
 
+    <project-details
+      opened="[[dialogs.project.isOpened]]"
+      speaker="[[dialogs.project.data]]"
+      with-backdrop="[[viewport.isTabletPlus]]"
+      no-cancel-on-outside-click="[[viewport.isPhone]]"
+    ></project-details>
+
     <previous-speaker-details
       opened="[[dialogs.previousSpeaker.isOpened]]"
       speaker="[[dialogs.previousSpeaker.data]]"
@@ -285,6 +292,13 @@
       with-backdrop
       no-cancel-on-outside-click="[[viewport.isPhone]]">
     </subscribe-dialog>
+
+    <new-project-dialog
+      opened="[[dialogs.newProject.isOpened]]"
+      data="[[dialogs.newProject.data]]"
+      with-backdrop
+      no-cancel-on-outside-click="[[viewport.isPhone]]">
+    </new-project-dialog>    
 
     <signin-dialog
       opened="[[dialogs.signin.isOpened]]"

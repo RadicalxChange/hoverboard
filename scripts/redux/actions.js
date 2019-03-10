@@ -403,11 +403,13 @@ const fundraiserActions = {
   create: (data) => (dispatch) => {
     firebase.firestore().collection('projects')
       .add({
-        name: data.name,
-        description: data.description || '',
+        name: data.firstFieldValue,
+        description: data.secondFieldValue || '',
+        email: data.email,
         contributions: [],
       })
       .then(() => {
+        dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
         toastActions.showToast({ message: 'Project submitted!' });
       })
       .catch((error) => {
