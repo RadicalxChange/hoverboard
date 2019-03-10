@@ -239,8 +239,10 @@
             data-route="agenda"
             data-path="pages/agenda-page.html"
           ></agenda-page>
-
-
+          <fundraiser-page
+            data-route="fundraiser"
+            data-path="pages/fundraiser-page.html"
+          ></fundraiser-page>
         </iron-lazy-pages>
 
       </app-header-layout>
@@ -255,7 +257,6 @@
       disable-controls="[[!ui.videoDialog.disableControls]]"
       fit fixed-top
     ></video-dialog>
-
 
     <speaker-details
       opened="[[dialogs.speaker.isOpened]]"

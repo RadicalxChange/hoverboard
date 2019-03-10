@@ -7,6 +7,7 @@ import scheduleNotifications from './schedule-notifications';
 import optimizeImages from './optimize-images';
 import mailchimpSubscribe, { mailchimpPotentialPartnerSubscribe } from './mailchimp-subscribe';
 import prerender from './prerender';
+import computeFunding from './compute-funding';
 
 admin.initializeApp();
 
@@ -18,4 +19,5 @@ export {
   mailchimpSubscribe,
   mailchimpPotentialPartnerSubscribe,
   prerender,
+  computeFunding
 }

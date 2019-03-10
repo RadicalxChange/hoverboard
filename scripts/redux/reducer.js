@@ -243,6 +243,35 @@ const speakersReducer = (state = initialState.speakers, action) => {
   }
 };
 
+
+const projectsReducer = (state = initialState.projects, action) => {
+  switch (action.type) {
+    case FETCH_PROJECTS:
+      return Object.assign({}, state, {
+        fetching: true,
+        fetchingError: null,
+        list: [],
+        obj: {},
+      });
+
+    case FETCH_PROJECTS_FAILURE:
+      return Object.assign({}, state, {
+        fetching: false,
+        fetchingError: action.payload.error,
+      });
+
+    case FETCH_PROJECTS_SUCCESS:
+      return Object.assign({}, state, {
+        fetching: false,
+        list: action.payload.list,
+        obj: action.payload.obj,
+      });
+
+    default:
+      return state;
+  }
+};
+
 const previousSpeakersReducer = (state = initialState.previousSpeakers, action) => {
   switch (action.type) {
     case FETCH_PREVIOUS_SPEAKERS:

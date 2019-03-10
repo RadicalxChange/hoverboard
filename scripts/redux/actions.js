@@ -367,6 +367,65 @@ const previousSpeakersActions = {
   },
 };
 
+const fundraiserActions = {
+  fetchList: () => (dispatch) => {
+    dispatch({
+      type: FETCH_PROJECTS,
+    });
+
+    firebase.firestore()
+      .collection('projects')
+      .get()
+      .then((snaps) => {
+        const list = snaps.docs
+          .map((snap) => Object.assign({}, snap.data(), { id: snap.id }));
+
+        const obj = list.reduce(
+          (acc, curr) => Object.assign({}, acc, { [curr.id]: curr }),
+          {}
+        );
+
+        dispatch({
+          type: FETCH_PROJECTS_SUCCESS,
+          payload: {
+            obj,
+            list,
+          },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: FETCH_PROJECTS_FAILURE,
+          payload: { error },
+        });
+      });
+  },
+  create: (data) => (dispatch) => {
+    firebase.firestore().collection('projects')
+      .add({
+        name: data.name,
+        description: data.description || '',
+        contributions: [],
+      })
+      .then(() => {
+        toastActions.showToast({ message: 'Project submitted!' });
+      })
+      .catch((error) => {
+        dispatch({
+          type: SET_DIALOG_DATA,
+          dialog: {
+            ['submit-project']: {
+              isOpened: true,
+              data: Object.assign(data, { errorOccurred: true }),
+            },
+          },
+        });
+
+        helperActions.trackError('projectActions', 'submit', error);
+      });
+  },
+};
+
 const sessionsActions = {
   fetchList: () => (dispatch) => {
     dispatch({
