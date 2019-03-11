@@ -31,6 +31,7 @@
       if (!this.speakersFetching && (!this.speakers || !this.speakers.length)) {
         this.dispatch(speakersActions.fetchList());
       }
+      console.log(this.routeData);
     }
   };
 </script>

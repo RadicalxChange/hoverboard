@@ -242,6 +242,7 @@
           <fundraiser-page
             data-route="fundraiser"
             data-path="pages/fundraiser-page.html"
+            route="[[subroute]]"
           ></fundraiser-page>
         </iron-lazy-pages>
 
@@ -267,7 +268,7 @@
 
     <project-details
       opened="[[dialogs.project.isOpened]]"
-      speaker="[[dialogs.project.data]]"
+      project="[[dialogs.project.data]]"
       with-backdrop="[[viewport.isTabletPlus]]"
       no-cancel-on-outside-click="[[viewport.isPhone]]"
     ></project-details>

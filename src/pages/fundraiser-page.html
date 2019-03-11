@@ -74,7 +74,6 @@
         }
       }
 
-
       iron-lazy-pages {
         min-height: 100%;
       }
@@ -88,13 +87,12 @@
     ></polymer-helmet>
 
     <app-route
-      route="[[_route]]"
+      route="[[route]]"
       pattern="/:projectId"
       data="{{routeData}}"
-<!--       tail="{{subRoute}}"
- -->    ></app-route>
+    ></app-route>
 
-    <<hero-block
+    <hero-block
       background-image="{$ heroSettings.speakers.background.image $}"
       background-color="{$ heroSettings.speakers.background.color $}"
       font-color="{$ heroSettings.speakers.fontColor $}"
@@ -102,6 +100,8 @@
     >
       <div class="hero-title highlight-font">CLR Fundraiser</div>
       <p class="hero-description">Raise money with matching funds!</p>
+      {{routeData.projectId}}
+
     </hero-block>
 
     <paper-progress indeterminate hidden$="[[contentLoaderVisibility]]"></paper-progress>
@@ -123,6 +123,7 @@
         <a class="project card"
            href$="/fundraiser/[[project.id]]/"
            ga-on="click"
+           on-tap="_openProjectDetails([[project.id]])"
            ga-event-category="project"
            ga-event-action="open details"
            ga-event-label$="[[project.name]]">
@@ -166,6 +167,7 @@
       static get properties() {
         return {
           route: Object,
+          routeData: Object,
           active: Boolean,
           contentLoaderVisibility: {
             type: String,
@@ -195,7 +197,13 @@
           user: {
             type: Object,
             statePath: 'user',
-          },          
+          },
+          isDialogOpened: {
+            type: Object,
+            statePath: 'dialogs.project.isOpened',
+            observer: '_dialogStatusChanged',
+          },
+          
         };
       }
 
@@ -209,6 +217,13 @@
       _projectsChanged() {
         if (this.projects && this.projects.length) {
           this.contentLoaderVisibility = 'hidden';
+          console.log("route data: {{routeData}}");
+        }
+      }
+
+      _dialogStatusChanged(nextState, prevState) {
+        if (!nextState && prevState && this.active && this.routeData.projectId) {
+          history.back();
         }
       }
 
@@ -241,7 +256,9 @@
         this.snapshotUnsubscribe = firebase.firestore().collection('projects')
           .onSnapshot(function (snapshot) {
             store.dispatch(fundraiserActions.fetchList());
-          });
+          });  
+
+        console.log(this.routeData);  
       }
 
       disconnectedCallback() {
@@ -267,11 +284,11 @@
             secondFieldLabel: 'Project Description',
             firstFieldValue: userData.firstFieldValue,
             secondFieldValue: userData.secondFieldValue,
-            submit: (data) => this._subscribeAction(data),
+            submit: (data) => this._submitAction(data),
         });
       }
 
-      _subscribeAction(data) {
+      _submitAction(data) {
         this.dispatch(fundraiserActions.create(data));
       }
 
@@ -285,9 +302,10 @@
       // }
 
       _openProjectDetails(active, projects, projectsMap, id) {
-        if (projects && projects.length) {
+        console.log(this.routeData);
+        if (this.projects && this.projects.length) {
           requestAnimationFrame(() => {
-            if (active && id) {
+            if (this.active && id) {
               const projectData = projectsMap[id];
               projectData && dialogsActions.openDialog(DIALOGS.PROJECT, projectData);
             } else if (this.isDialogOpened) {
@@ -297,6 +315,9 @@
         }
       }
 
+      _setHelmetData(active, isDialogOpened) {
+        return active && !isDialogOpened;
+      }
     }
 
     window.customElements.define(FundraiserPage.is, FundraiserPage);
