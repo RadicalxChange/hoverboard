@@ -11,7 +11,6 @@
 
 <link rel="import" href="../../mixins/utils-functions.html">
 <link rel="import" href="../../mixins/redux-mixin.html">
-<link rel="import" href="../../mixins/sessions-hoc.html">
 <link rel="import" href="../text-truncate.html">
 <link rel="import" href="../shared-styles.html">
 <link rel="import" href="dialog-styles.html">
@@ -62,9 +61,9 @@
 
   <script>
 
-    // eslint-disable-next-line no-undef
     // TODO Mixin for shared properties
-    class ProjectDetails extends UtilsFunctions( 
+    // eslint-disable-next-line no-undef
+    class ProjectDetails extends UtilsFunctions(
       // eslint-disable-next-line no-undef
       ReduxMixin(Polymer.mixinBehaviors([Polymer.IronOverlayBehavior], Polymer.Element))
     ) {
@@ -97,11 +96,10 @@
             type: Object,
             statePath: 'user',
           },
-        }          
-      };
+        };
+      }
 
       constructor() {
-        console.log("creating something");
         super();
         this.addEventListener('iron-overlay-canceled', this._close);
       }

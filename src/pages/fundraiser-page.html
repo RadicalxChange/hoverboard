@@ -132,7 +132,7 @@
             <br/>
             <h3 class="contributions">Number of contributions: [[project.contributions.length]]</h3>
             <h3 class="contributions">Total contribution value: $[[_sum(project.contributions)]]</h3>
-            <h3 class="contributions">Estimated matching funds: $[[_clr_funding(project.contributions)]]</h3>
+            <h3 class="contributions">Estimated matching funds: $[[_clrFunding(project.contributions)]]</h3>
             <h3 class="contributions">Click to view details</h3>
 
           </div>
@@ -214,7 +214,6 @@
       _projectsChanged() {
         if (this.projects && this.projects.length) {
           this.contentLoaderVisibility = 'hidden';
-          console.log("route data: {{routeData}}");
         }
       }
 
@@ -226,19 +225,20 @@
 
       _sum(contributions) {
         if (contributions && contributions.length) {
-          return contributions.reduce((a,b)=>{return a+b;});
+          return contributions.reduce((a, b)=>{return a+b;});
         } else {
           return 0;
         }
       }
 
-      _lr_funding(contributions) {
-        return Math.pow(this._sum(contributions.map(contribution=>Math.sqrt(contribution))), 2).toFixed(0);
+      _lrFunding(contributions) {
+        return Math.pow(this._sum(
+          contributions.map((contribution) => Math.sqrt(contribution))), 2).toFixed(0);
       }
 
-      _clr_funding(contributions) {
+      _clrFunding(contributions) {
         if (contributions && contributions.length) {
-          return this.alpha*this._lr_funding(contributions) + (1-this.alpha)*this._sum(contributions);
+          return this.alpha*this._lrFunding(contributions) + (1-this.alpha)*this._sum(contributions);
         } else {
           return 0;
         }
@@ -246,16 +246,13 @@
 
       connectedCallback() {
         super.connectedCallback();
-        // if (!this.projectsFetching && (!this.projects || !this.projects.length)) {
-        //   this.dispatch(fundraiserActions.fetchList());
-        // }
 
         this.snapshotUnsubscribe = firebase.firestore().collection('projects')
           .onSnapshot(function (snapshot) {
+            // There's a correct way to do this but I didn't figure out how.
+            // eslint-disable-next-line no-undef
             store.dispatch(fundraiserActions.fetchList());
-          });  
-
-        console.log(this.routeData);  
+          });
       }
 
       disconnectedCallback() {
@@ -273,7 +270,7 @@
             secondFieldValue: fullNameSplit[1],
           };
         }
-      
+
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
             title: 'Submit a project!',
             submitLabel: ' Submit!',
@@ -299,7 +296,6 @@
       // }
 
       _openProjectDetails(active, projects, projectsMap, id) {
-        console.log(this.routeData);
         if (projects && projects.length) {
           requestAnimationFrame(() => {
             if (active && id) {
