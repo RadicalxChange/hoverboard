@@ -3,6 +3,7 @@
 <link rel="import" href="../../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
 <link rel="import" href="../../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <link rel="import" href="../../../bower_components/plastic-image/plastic-image.html">
 <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
@@ -55,7 +56,15 @@
 
         <h2 class="name" flex>Number of contributions: [[project.contributions.length]]</h2>
 
-
+        <paper-button class="animated icon-right"
+                      on-tap="_pledge"
+                      invert
+                      raised
+                      >
+          <span class="cta-label">Pledge $5!</span>
+          <iron-icon icon$="hoverboard:[[ctaIcon]]"></iron-icon>
+          {{this.id}}
+         </paper-button>
       </div>
     </app-header-layout>
 
@@ -75,8 +84,12 @@
 
       static get properties() {
         return {
+
           project: {
             type: Object,
+          },
+          id: {
+            type: String,
           },
           viewport: {
             type: Object,
@@ -116,6 +129,12 @@
 
       _close() {
         dialogsActions.closeDialog(DIALOGS.PROJECT);
+      }
+
+      _pledge() {
+        let updatedProject = this.project;
+        updatedProject.contributions.push(5);
+        this.dispatch(fundraiserActions.pledge(this.project.id, updatedProject));
       }
 
       _getCloseBtnIcon(isLaptopViewport) {

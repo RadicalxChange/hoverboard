@@ -400,6 +400,9 @@ const fundraiserActions = {
       });
   },
   create: (data) => (dispatch) => {
+    dispatch({
+      type: CREATE_PROJECT,
+    });
     firebase.firestore().collection('projects')
       .add({
         name: data.firstFieldValue,
@@ -423,6 +426,32 @@ const fundraiserActions = {
         });
 
         helperActions.trackError('projectActions', 'submit', error);
+      });
+  },
+  pledge: (id, project) => (dispatch) => {
+    dispatch({
+      type: ADD_PLEDGE,
+    });
+    firebase.firestore()
+      .collection('projects')
+      .doc(id)
+      .set(project)
+      .then(() => {
+        dialogsActions.closeDialog(DIALOGS.PROJECT);
+        toastActions.showToast({ message: 'Pledge submitted!' });
+      })
+      .catch((error) => {
+        dispatch({
+          type: SET_DIALOG_DATA,
+          dialog: {
+            ['submit-project']: {
+              isOpened: true,
+              data: Object.assign(data, { errorOccurred: true }),
+            },
+          },
+        });
+
+        helperActions.trackError('projectActions', 'pledge', error);
       });
   },
 };
