@@ -277,7 +277,6 @@ const pressActions = {
           {}
         );
 
-
         dispatch({
           type: FETCH_PRESS_LIST_SUCCESS,
           payload: {

@@ -123,7 +123,6 @@
         <a class="project card"
            href$="/fundraiser/[[project.id]]/"
            ga-on="click"
-           on-tap="_openProjectDetails([[project.id]])"
            ga-event-category="project"
            ga-event-action="open details"
            ga-event-label$="[[project.name]]">
@@ -159,7 +158,6 @@
 
     // eslint-disable-next-line no-undef
     class FundraiserPage extends UtilsFunctions(ReduxMixin(Polymer.Element)) {
-
       static get is() {
         return 'fundraiser-page';
       }
@@ -203,7 +201,6 @@
             statePath: 'dialogs.project.isOpened',
             observer: '_dialogStatusChanged',
           },
-          
         };
       }
 
@@ -303,9 +300,9 @@
 
       _openProjectDetails(active, projects, projectsMap, id) {
         console.log(this.routeData);
-        if (this.projects && this.projects.length) {
+        if (projects && projects.length) {
           requestAnimationFrame(() => {
-            if (this.active && id) {
+            if (active && id) {
               const projectData = projectsMap[id];
               projectData && dialogsActions.openDialog(DIALOGS.PROJECT, projectData);
             } else if (this.isDialogOpened) {
