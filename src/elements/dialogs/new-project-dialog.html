@@ -1,6 +1,8 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
+
 <link rel="import" href="../../../bower_components/paper-dropdown-input/paper-dropdown-input.html">
 <link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
 <link rel="import" href="../../mixins/redux-mixin.html">
@@ -15,8 +17,7 @@
       :host {
         margin: 0;
         display: block;
-        width: 85%;
-        max-width: 420px;
+        width: 95%;
         background: var(--primary-background-color);
         box-shadow: var(--box-shadow);
 
@@ -33,7 +34,7 @@
         line-height: 1.5;
       }
 
-      paper-input, paper-dropdown-input {
+      paper-input, paper-dropdown-input, paper-textarea {
         margin: 16px 32px 0;
       }
 
@@ -66,13 +67,15 @@
                    autocomplete="off"
                    autofocus="false">
       </paper-input>
-      <paper-input id="secondFieldInput"
+      <paper-textarea id="secondFieldInput"
                    on-touchend="_focus"
                    label="[[secondFieldLabel]]"
                    value="{{secondFieldValue}}"
                    autocomplete="off"
-                   autofocus="false">
-      </paper-input>
+                   autofocus="false"
+                   maxRows=5
+                   maxlength=5000>
+      </paper-textarea>
       <paper-input id="emailInput"
                    on-touchend="_focus"
                    label="{$ subscribeBlock.emailAddress $} *"
@@ -171,11 +174,11 @@
         dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
       }
 
-      // _handleSubscribed(subscribed) {
-      //   if (subscribed) {
-      //     this._closeDialog();
-      //   }
-      // }
+      _handleSubscribed(subscribed) {
+        if (subscribed) {
+          this._closeDialog();
+        }
+      }
 
       _handleDialogToggled(opened, data) {
         if (data) {

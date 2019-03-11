@@ -43,7 +43,6 @@
         <app-toolbar>
           <div class="dialog-container header-content" layout horizontal center>
             <h2 class="name" flex>[[project.name]]</h2>
-            <h2 class="name" flex>[[project.contributions.length]]</h2>
           </div>
         </app-toolbar>
       </app-header>
@@ -53,6 +52,9 @@
         <marked-element class="description" markdown="[[project.description]]">
           <div slot="markdown-html"></div>
         </marked-element>
+
+        <h2 class="name" flex>Number of contributions: [[project.contributions.length]]</h2>
+
 
       </div>
     </app-header-layout>
@@ -88,7 +90,7 @@
             type: Boolean,
             statePath: 'projects.fetching',
           },
-          speakersFetchingError: {
+          projectsFetchingError: {
             type: Object,
             statePath: 'projects.fetchingError',
           },

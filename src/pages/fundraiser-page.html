@@ -247,6 +247,7 @@
       connectedCallback() {
         super.connectedCallback();
 
+        // Listen for updates on the data, and refresh then. So we can get realtime updates.
         this.snapshotUnsubscribe = firebase.firestore().collection('projects')
           .onSnapshot(function (snapshot) {
             // There's a correct way to do this but I didn't figure out how.
