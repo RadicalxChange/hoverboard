@@ -31,7 +31,7 @@ service cloud.firestore {
 
       // Allow writes
       // TODO just allow for authenticated users
-      allow write: if false;
+      allow write: if true;
     }
 
 

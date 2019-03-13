@@ -100,7 +100,6 @@
     >
       <div class="hero-title highlight-font">CLR Fundraiser</div>
       <p class="hero-description">Raise money with matching funds!</p>
-      {{routeData.projectId}}
 
     </hero-block>
 
@@ -130,10 +129,11 @@
           <div class="description">
             <h2 class="name">[[project.name]]</h2>
             <br/>
-            <h3 class="contributions">Number of contributions: [[project.contributions.length]]</h3>
-            <h3 class="contributions">Total contribution value: $[[_sum(project.contributions)]]</h3>
-            <h3 class="contributions">Estimated matching funds: $[[_clrFunding(project.contributions)]]</h3>
-            <h3 class="contributions">Click to view details</h3>
+            <h3 class="contributions">Number of contributions: [[_contrLength(project.id)]]</h3>
+            <h3 class="contributions">Total contribution value: $[[_contrSum(project.id)]]</h3>
+            <h3 class="contributions">Estimated matching funds: $[[_projectMatching(project.id)]]</h3>
+           
+             <h3 class="contributions">Click to view details</h3>
 
           </div>
         </a>
@@ -201,6 +201,10 @@
             statePath: 'dialogs.project.isOpened',
             observer: '_dialogStatusChanged',
           },
+          contributionsByProject: {
+            type: Object,
+            computed: '_computeContributionsByProject(projectsMap)',
+          },
         };
       }
 
@@ -209,6 +213,22 @@
           '_projectsChanged(projects)',
           '_openProjectDetails(active, projects, projectsMap, routeData.projectId)',
         ];
+      }
+
+      _computeContributionsByProject(projectsMap) {
+        let contributionsByProject = {};
+        // eslint-disable-next-line guard-for-in
+        for (var projectId in projectsMap) {
+          let contributionsList = [];
+          let contributionsObject = projectsMap[projectId].contributions;
+
+          // eslint-disable-next-line guard-for-in
+          for (var userId in contributionsObject) {
+            contributionsList.push(contributionsObject[userId]);
+          }
+          contributionsByProject[projectId] = contributionsList;
+        }
+        return contributionsByProject;
       }
 
       _projectsChanged() {
@@ -223,6 +243,14 @@
         }
       }
 
+      _contrSum(projectId) {
+        return this._sum(this.contributionsByProject[projectId]);
+      }
+
+      _projectMatching(projectId) {
+        return this._clrFunding(this.contributionsByProject[projectId]) - this._contrSum(projectId);
+      }
+
       _sum(contributions) {
         if (contributions && contributions.length) {
           return contributions.reduce((a, b)=>{return a+b;});
@@ -231,14 +259,19 @@
         }
       }
 
+      _contrLength(projectId) {
+        return this.contributionsByProject[projectId].length;
+      }
+
       _lrFunding(contributions) {
         return Math.pow(this._sum(
-          contributions.map((contribution) => Math.sqrt(contribution))), 2).toFixed(0);
+          contributions.map((contribution) => Math.sqrt(contribution))), 2);
       }
 
       _clrFunding(contributions) {
         if (contributions && contributions.length) {
-          return this.alpha*this._lrFunding(contributions) + (1-this.alpha)*this._sum(contributions);
+          return (this.alpha*this._lrFunding(contributions) +
+           (1-this.alpha)*this._sum(contributions)).toFixed(0);
         } else {
           return 0;
         }
@@ -247,7 +280,7 @@
       connectedCallback() {
         super.connectedCallback();
 
-        // Listen for updates on the data, and refresh then. So we can get realtime updates.
+        // Listen for updates on the data, and refresh then. So we can get realtime
         this.snapshotUnsubscribe = firebase.firestore().collection('projects')
           .onSnapshot(function (snapshot) {
             // There's a correct way to do this but I didn't figure out how.

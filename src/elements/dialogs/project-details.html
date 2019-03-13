@@ -53,8 +53,6 @@
           <div slot="markdown-html"></div>
         </marked-element>
 
-        <h2 class="name" flex>Number of contributions: [[project.contributions.length]]</h2>
-
         <paper-button class="animated icon-right"
                       on-tap="_pledge"
                       invert
@@ -131,9 +129,9 @@
       }
 
       _pledge() {
-        let updatedProject = this.project;
-        updatedProject.contributions.push(5);
-        this.dispatch(fundraiserActions.pledge(this.project.id, updatedProject));
+        let id = 'id5';
+        this.project.contributions[id] = 5;
+        this.dispatch(fundraiserActions.pledge(this.project.id, this.project));
       }
 
       _getCloseBtnIcon(isLaptopViewport) {

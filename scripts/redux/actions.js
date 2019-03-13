@@ -408,7 +408,7 @@ const fundraiserActions = {
         name: data.firstFieldValue,
         description: data.secondFieldValue || '',
         email: data.email,
-        contributions: [],
+        contributions: {},
       })
       .then(() => {
         dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
