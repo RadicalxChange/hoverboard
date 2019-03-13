@@ -287,6 +287,10 @@
             // eslint-disable-next-line no-undef
             store.dispatch(fundraiserActions.fetchList());
           });
+
+        if (!this.user.signedIn) {
+           dialogsActions.openDialog(DIALOGS.SIGNIN);
+        }
       }
 
       disconnectedCallback() {
@@ -294,15 +298,21 @@
         this.snapshotUnsubscribe();
       }
 
-      _add() {
-        let userData = {};
+      _add(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-        if (this.user.signedIn) {
-          const fullNameSplit = this.user.displayName.split(' ');
-          userData = {
-            firstFieldValue: fullNameSplit[0],
-            secondFieldValue: fullNameSplit[1],
-          };
+        if (!this.user.signedIn) {
+          toastActions.showToast({
+            message: 'Sign in to submit project ideas!',
+            action: {
+              title: 'Sign in',
+              callback: () => {
+                dialogsActions.openDialog(DIALOGS.SIGNIN);
+              },
+            },
+          });
+          return;
         }
 
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
@@ -310,8 +320,6 @@
             submitLabel: ' Submit!',
             firstFieldLabel: 'Project Title',
             secondFieldLabel: 'Project Description',
-            firstFieldValue: userData.firstFieldValue,
-            secondFieldValue: userData.secondFieldValue,
             submit: (data) => this._submitAction(data),
         });
       }

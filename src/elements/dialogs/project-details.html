@@ -122,15 +122,36 @@
         if (!this.projectsFetching && (!this.projects || !this.projects.length)) {
          this.dispatch(fundraiserActions.fetchList());
         }
+
+        if (!this.user.signedIn) {
+           dialogsActions.openDialog(DIALOGS.SIGNIN);
+        }
       }
 
       _close() {
         dialogsActions.closeDialog(DIALOGS.PROJECT);
       }
 
-      _pledge() {
-        let id = 'id5';
-        this.project.contributions[id] = 5;
+      _pledge(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!this.user.signedIn) {
+          toastActions.showToast({
+            message: 'Sign in to pledge!',
+            action: {
+              title: 'Sign in',
+              callback: () => {
+                dialogsActions.openDialog(DIALOGS.SIGNIN);
+              },
+            },
+          });
+          return;
+        }
+
+        // Maybe use email address as a key instead?
+
+        this.project.contributions[this.user.uid] = 5;
         this.dispatch(fundraiserActions.pledge(this.project.id, this.project));
       }
 
