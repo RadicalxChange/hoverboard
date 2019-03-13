@@ -2,6 +2,7 @@
 
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 
 <link rel="import" href="../mixins/utils-functions.html">
 <link rel="import" href="../mixins/redux-mixin.html">
@@ -99,7 +100,14 @@
       active="[[active]]"
     >
       <div class="hero-title highlight-font">CLR Fundraiser</div>
-      <p class="hero-description">Raise money with matching funds!</p>
+      <p class="hero-description">Capitalist <----> Radical</p>
+
+      <paper-slider
+        min="0"
+        value="{{alpha100}}"
+        max="100"
+        editable>
+       </paper-slider>
 
     </hero-block>
 
@@ -129,9 +137,9 @@
           <div class="description">
             <h2 class="name">[[project.name]]</h2>
             <br/>
-            <h3 class="contributions">Number of contributions: [[_contrLength(project.id)]]</h3>
-            <h3 class="contributions">Total contribution value: $[[_contrSum(project.id)]]</h3>
-            <h3 class="contributions">Estimated matching funds: $[[_projectMatching(project.id)]]</h3>
+            <h3 class="contributions">Number of contributions: {{_contrLength(project.id)}}</h3>
+            <h3 class="contributions">Total contribution value: ${{_contrSum(project.id)}}</h3>
+            <h3 class="contributions">Estimated matching funds: ${{_projectMatching(project.id, alpha)}}</h3>
            
              <h3 class="contributions">Click to view details</h3>
 
@@ -189,7 +197,11 @@
           },
           alpha: {
             type: Number,
-            value: 0.2,
+            computed: '_divideBy100(alpha100)',
+          },
+          alpha100: {
+            type: Number,
+            value: 20,
           },
           snapshotUnsubscribe: Function,
           user: {
@@ -247,7 +259,7 @@
         return this._sum(this.contributionsByProject[projectId]);
       }
 
-      _projectMatching(projectId) {
+      _projectMatching(projectId, alpha) {
         return this._clrFunding(this.contributionsByProject[projectId]) - this._contrSum(projectId);
       }
 
@@ -266,6 +278,10 @@
       _lrFunding(contributions) {
         return Math.pow(this._sum(
           contributions.map((contribution) => Math.sqrt(contribution))), 2);
+      }
+
+      _divideBy100(value) {
+        return value/100.0;
       }
 
       _clrFunding(contributions) {
