@@ -57,6 +57,10 @@
         --paper-progress-secondary-color: var(--default-primary-color);
       }
 
+      paper-input.slider-input {
+        display: none;
+      }
+
       @media (min-width: 640px) {
         .container {
           grid-template-columns: repeat(2, 1fr);
@@ -77,6 +81,12 @@
 
       iron-lazy-pages {
         min-height: 100%;
+      }
+
+      table {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 16px;
       }
 
     </style>
@@ -100,14 +110,31 @@
       active="[[active]]"
     >
       <div class="hero-title highlight-font">CLR Fundraiser</div>
-      <p class="hero-description">Capitalist <----> Radical</p>
 
-      <paper-slider
-        min="0"
-        value="{{alpha100}}"
-        max="100"
-        editable>
-       </paper-slider>
+        <marked-element class="description" markdown='{$ fundraiser.rules $}'>
+          <div slot="markdown-html"></div>
+        </marked-element>
+
+      <table class="alpha-slider">
+        <tr>
+          <td>
+            Capitalist
+          </td>
+          <td>
+            <paper-slider
+              min="0"
+              value="{{alpha100}}"
+              max="100"
+              editable>
+             </paper-slider>            
+          </td>
+          <td>
+            % Radical
+          </td>
+        </tr>
+      </table>
+
+      <h2 class="contributions">Tap a project to view details and contribute</h2>
 
     </hero-block>
 
@@ -125,6 +152,7 @@
       hidden$="[[contentLoaderVisibility]]"
     ></content-loader>
  -->
+
     <div class="container">
       <template is="dom-repeat" items="[[projects]]" as="project">
         <a class="project card"
@@ -137,12 +165,10 @@
           <div class="description">
             <h2 class="name">[[project.name]]</h2>
             <br/>
-            <h3 class="contributions">Number of contributions: {{_contrLength(project.id)}}</h3>
-            <h3 class="contributions">Total contribution value: ${{_contrSum(project.id)}}</h3>
-            <h3 class="contributions">Estimated matching funds: ${{_projectMatching(project.id, alpha)}}</h3>
+            <h3 class="contributions">Pledges: {{_contrLength(project.id)}}</h3>
+            <h3 class="contributions">Pledge value: ${{_contrSum(project.id)}}</h3>
+            <h3 class="contributions">Estimated match: ${{_projectMatching(project.id, alpha)}}</h3>
            
-             <h3 class="contributions">Click to view details</h3>
-
           </div>
         </a>
       </template>
