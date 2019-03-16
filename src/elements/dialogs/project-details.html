@@ -108,6 +108,10 @@
             type: Object,
             statePath: 'user',
           },
+          registered: {
+            type: Boolean,
+            statePath: 'registered',
+          }
         };
       }
 
@@ -123,9 +127,9 @@
          this.dispatch(fundraiserActions.fetchList());
         }
 
-        if (!this.user.signedIn) {
-           dialogsActions.openDialog(DIALOGS.SIGNIN);
-        }
+        // if (!this.user.signedIn) {
+        //    dialogsActions.openDialog(DIALOGS.SIGNIN);
+        // }
       }
 
       _close() {
@@ -138,9 +142,9 @@
 
         if (!this.user.signedIn) {
           toastActions.showToast({
-            message: 'Sign in to pledge!',
+            message: 'Confirm email to pledge!',
             action: {
-              title: 'Sign in',
+              title: 'Confirm',
               callback: () => {
                 dialogsActions.openDialog(DIALOGS.SIGNIN);
               },
@@ -148,6 +152,17 @@
           });
           return;
         }
+
+        this.dispatch(userActions.isRegistered(this.user.email));
+
+        if (!this.registered) {
+          toastActions.showToast({
+            message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
+            duration:10000,
+          });
+          return;
+        }
+
 
         // Maybe use email address as a key instead?
 

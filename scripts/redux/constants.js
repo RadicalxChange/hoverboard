@@ -104,6 +104,11 @@ const FETCH_TEAM_SUCCESS = 'app/Team/FETCH_TEAM_SUCCESS';
 // user
 const SIGN_IN = 'app/Auth/SIGN_IN';
 const SIGN_OUT = 'app/Auth/SIGN_OUT';
+
+const IS_REGISTERED = 'app/Users/IS_REGISTERED';
+const IS_REGISTERED_FAILURE = 'app/Users/IS_REGISTERED_FAILURE';
+const IS_REGISTERED_SUCCESS = 'app/Users/IS_REGISTERED_SUCCESS';
+
 // subscribe
 const SUBSCRIBE = 'app/Subscribe/SUBSCRIBE';
 // notifications

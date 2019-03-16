@@ -243,6 +243,11 @@
             type: Object,
             computed: '_computeContributionsByProject(projectsMap)',
           },
+          registered: {
+            type: Boolean,
+            statePath: 'registered',
+            observer: '_registrationChanged',
+          }
         };
       }
 
@@ -319,6 +324,10 @@
         }
       }
 
+      _registrationChanged(registration) {
+        this.registration = registration;
+      }
+
       connectedCallback() {
         super.connectedCallback();
 
@@ -333,11 +342,50 @@
         if (!this.user.signedIn) {
            dialogsActions.openDialog(DIALOGS.SIGNIN);
         }
+
+        // Confirm the link is a sign-in with email link.
+        if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+          // Additional state parameters can also be passed via URL.
+          // This can be used to continue the user's intended action before triggering
+          // the sign-in operation.
+          // Get the email if available. This should be available if the user completes
+          // the flow on the same device where they started it.
+          var email = window.localStorage.getItem('emailForSignIn');
+          if (!email) {
+            // User opened the link on a different device. To prevent session fixation
+            // attacks, ask the user to provide the associated email again. For example:
+            email = window.prompt('Please provide your email for confirmation');
+          }
+          // The client SDK will parse the code from the link for you.
+          firebase.auth().signInWithEmailLink(email, window.location.href)
+            .then(function(result) {
+              // Clear email from storage.
+              console.log(result);
+              window.localStorage.removeItem('emailForSignIn');          
+
+              // You can access the new user via result.user
+              // Additional user info profile not available via:
+              // result.additionalUserInfo.profile == null
+              // You can check if the user is new or existing:
+              // result.additionalUserInfo.isNewUser
+            })
+            .catch(function(error) {
+              // Some error occurred, you can inspect the code: error.code
+              // Common errors could be invalid email and invalid or expired OTPs.
+            });
+          }
+          if (this.user && this.user.email) {
+            this.dispatch(userActions.isRegistered(this.user.email));            
+          }
       }
 
       disconnectedCallback() {
         super.disconnectedCallback();
         this.snapshotUnsubscribe();
+      }
+
+      _setRegistration(exists) {
+        this.registered = exists;
       }
 
       _add(event) {
@@ -346,9 +394,9 @@
 
         if (!this.user.signedIn) {
           toastActions.showToast({
-            message: 'Sign in to submit project ideas!',
+            message: 'Confirm your email to submit project ideas!',
             action: {
-              title: 'Sign in',
+              title: 'Confirm',
               callback: () => {
                 dialogsActions.openDialog(DIALOGS.SIGNIN);
               },
@@ -357,11 +405,31 @@
           return;
         }
 
+        //const registered = userActions.isRegistered(this.user.email);
+
+        // var isRegistered;
+
+        // firebase.firestore()
+        //   .collection('attendees2019')
+        //   .doc(this.user.email)
+        //   .get()
+        //   .then((doc) => {
+        //      _setRegistration(doc.exists); 
+        //   });
+
+        if (!this.registered) {
+          toastActions.showToast({
+            message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
+            duration:10000,
+          });
+          return;
+        }
+
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
-            title: 'Submit a project!',
+            title: 'Submit a project idea',
             submitLabel: ' Submit!',
             firstFieldLabel: 'Project Title',
-            secondFieldLabel: 'Project Description',
+            secondFieldLabel: 'Project Description. Recommended: Paste in from elsewhere.',
             submit: (data) => this._submitAction(data),
         });
       }

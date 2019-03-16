@@ -446,6 +446,15 @@ const subscribeReducer = (state = initialState.subscribed, action) => {
   }
 };
 
+const registeredReducer = (state = initialState.registered, action) => {
+  switch (action.type) {
+    case IS_REGISTERED_SUCCESS:
+      return action.registered;
+    default:
+      return state;
+  }
+};
+
 const toastReducer = (state = initialState.toast, action) => {
   switch (action.type) {
     case SHOW_TOAST:

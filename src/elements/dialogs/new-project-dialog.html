@@ -80,7 +80,6 @@
                    on-touchend="_focus"
                    label="{$ subscribeBlock.emailAddress $} *"
                    value="{{email}}"
-                   required auto-validate$="[[validate]]" error-message="{$ subscribeBlock.emailRequired $}"
                    autocomplete="off"
                    autofocus="false">
       </paper-input>
@@ -174,11 +173,11 @@
         dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
       }
 
-      _handleSubscribed(subscribed) {
-        if (subscribed) {
-          this._closeDialog();
-        }
-      }
+      // _handleSubscribed(subscribed) {
+      //   if (subscribed) {
+      //     this._closeDialog();
+      //   }
+      // }
 
       _handleDialogToggled(opened, data) {
         if (data) {
@@ -188,7 +187,7 @@
         this.title = data.title || 'Create a new project!';
         this.submitLabel = data.submitLabel || ' Submit!';
         this.firstFieldLabel = data.firstFieldLabel || 'Project Title';
-        this.secondFieldLabel = data.secondFieldLabel || 'Project Description';
+        this.secondFieldLabel = data.secondFieldLabel || 'Project Description. Recommended: paste in from elsewhere.';
         this._prefillFields(data);
       }
 

@@ -741,6 +741,30 @@ const userActions = {
     });
   },
 
+  signInWithEmail: (email, url) => {
+    var actionCodeSettings = {
+      // URL you want to redirect back to. The domain (www.example.com) for this
+      // URL must be whitelisted in the Firebase Console.
+      url: url,
+      // This must be true.
+      handleCodeInApp: true,
+    };
+
+    firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+      .then(function () {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+        dialogsActions.closeDialog(DIALOGS.SIGNIN);
+        toastActions.showToast({ message: 'Success! Check your email for a sign in link!' });
+      })
+      .catch(function (error) {
+        // Some error occurred, you can inspect the code: error.code
+        helperActions.trackError('userActions', 'signInWithEmail', error);
+      });
+  },
+
   signOut: () => {
     return firebase.auth()
       .signOut()
@@ -749,6 +773,49 @@ const userActions = {
         subscribeActions.resetSubscribed();
       });
   },
+
+  isRegistered: (email) => (dispatch) => {
+    dispatch({
+      type: IS_REGISTERED,
+    });
+
+    firebase.firestore()
+      .collection('attendees2019')
+      .doc(email)
+      .get()
+      .then((doc) => {
+        dispatch({
+          type: IS_REGISTERED_SUCCESS,
+          registered: doc.exists,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: IS_REGISTERED_FAILURE,
+          payload: { error },
+        });
+      });
+    },
+      //   firebase.firestore()
+  //     .collection('featuredSessions')
+  //     .doc(userId)
+  //     .get()
+  //     .then((doc) => {
+  //       dispatch({
+  //         type: FETCH_USER_FEATURED_SESSIONS_SUCCESS,
+  //         payload: {
+  //           featuredSessions: doc.exists ? doc.data() : {},
+  //         },
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       dispatch({
+  //         type: FETCH_USER_FEATURED_SESSIONS_FAILURE,
+  //         payload: { error },
+  //       });
+  //     });
+  // },
+
 };
 
 const subscribeActions = {
