@@ -248,10 +248,13 @@
       }
 
       _validateEmail(email) {
-        /* eslint-disable */
-        const emailRegularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return emailRegularExpression.test(email);
-        /* eslint-enable */
+        // /* eslint-disable */
+        // const emailRegularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // return emailRegularExpression.test(email);
+        // /* eslint-enable *
+        const value = parseFloat(email);
+        console.log(value);
+        return value > 100; 
       }
 
       _closeDialog() {
