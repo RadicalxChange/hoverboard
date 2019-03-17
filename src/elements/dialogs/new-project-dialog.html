@@ -2,6 +2,7 @@
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 
 <link rel="import" href="../../../bower_components/paper-dropdown-input/paper-dropdown-input.html">
 <link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
@@ -34,12 +35,16 @@
         line-height: 1.5;
       }
 
-      paper-input, paper-dropdown-input, paper-textarea {
-        margin: 16px 32px 0;
+      paper-input, paper-dropdown-input, paper-textarea, iron-autogrow-textarea {
+        margin: 16px 32px 0px 16px;
       }
 
       paper-input:first-of-type {
         margin-top: 0;
+      }
+
+      iron-autogrow-textarea {
+        width: 95%;
       }
 
       .action-buttons {
@@ -57,37 +62,55 @@
 
     </style>
 
-    <div class="dialog-content" layout vertical>
+    <div class="dialog-content" layout vertical has-scrolling-region>
       <div class="dialog-header">[[title]]</div>
       <div hidden$="[[!errorOccurred]]" class="general-error">{$ subscribeBlock.generalError $}</div>
-      <paper-input id="firstFieldInput"
-                   on-touchend="_focus"
-                   label="[[firstFieldLabel]]"
-                   value="{{firstFieldValue}}"
-                   autocomplete="off"
-                   autofocus="false">
-      </paper-input>
-      <paper-textarea id="secondFieldInput"
-                   on-touchend="_focus"
-                   label="[[secondFieldLabel]]"
-                   value="{{secondFieldValue}}"
-                   autocomplete="off"
-                   autofocus="false"
-                   maxRows=5
-                   maxlength=5000>
-      </paper-textarea>
-      <paper-input id="emailInput"
-                   on-touchend="_focus"
-                   label="{$ subscribeBlock.emailAddress $} *"
-                   value="{{email}}"
-                   autocomplete="off"
-                   autofocus="false">
-      </paper-input>
+
+      <div hidden$="[[previewMode]]">
+        <paper-input id="firstFieldInput"
+                     on-touchend="_focus"
+                     label="[[firstFieldLabel]]"
+                     value="{{firstFieldValue}}"
+                     autocomplete="off"
+                     autofocus="false">
+        </paper-input>
+        <iron-autogrow-textarea id="secondFieldInput"
+                     on-touchend="_focus"
+                     label="[[secondFieldLabel]]"
+                     value="{{secondFieldValue}}"
+                     autocomplete="off"
+                     autofocus="false"
+                     rows=10
+                     max-rows=5
+                     maxlength=5000
+                     placeholder="Project Description. Max length: 5000 characters. Basic markdown syntax is supported.">
+        </iron-autogrow-textarea>
+        <paper-input id="emailInput"
+                     on-touchend="_focus"
+                     label="Estimated budget *"
+                     value="{{email}}"
+                     autocomplete="off"
+                     autofocus="false">
+        </paper-input>
+      </div>        
+      <div hidden$="[[!previewMode]]" class="content">
+        <marked-element class="description" markdown="[[secondFieldValue]]">
+          <div slot="markdown-html"></div>
+        </marked-element>
+      </div>
+
       <div class="action-buttons" layout horizontal justified>
         <paper-button
           class="close-button"
           on-tap="_closeDialog"
         >{$ subscribeBlock.close $}
+        </paper-button>
+
+        <paper-button
+          class="edit-button"
+          on-tap="_leavePreview"
+          hidden$="[[!previewMode]]"
+        >Edit
         </paper-button>
 
         <paper-button
@@ -99,7 +122,7 @@
           primary
           invert
         >
-         [[submitLabel]]
+         [[_getSubmitLabel(previewMode)]]
         </paper-button>
       </div>
 
@@ -147,6 +170,10 @@
           submitLabel: String,
           firstFieldLabel: String,
           secondFieldLabel: String,
+          previewMode: {
+            type: Boolean,
+            value: false,
+          },
         };
       }
 
@@ -191,7 +218,21 @@
         this._prefillFields(data);
       }
 
+      _leavePreview() {
+        this.previewMode = false;
+      }
+
+      _getSubmitLabel() {
+        return this.previewMode? "Submit" : "Preview";
+      }
+
       _submit() {
+
+        if(!this.previewMode) {
+          this.previewMode = true;
+          return;
+        }
+
         const emailInput = this.shadowRoot.querySelector('#emailInput');
 
         if (!emailInput.validate() || !this._validateEmail(emailInput.value)) {

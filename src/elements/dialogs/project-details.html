@@ -8,6 +8,7 @@
 <link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
 <link rel="import" href="../../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../../../bower_components/paper-number-input/paper-number-input.html">
 
 <link rel="import" href="../../mixins/utils-functions.html">
 <link rel="import" href="../../mixins/redux-mixin.html">
@@ -28,7 +29,7 @@
 
     <polymer-helmet
       title="[[project.name]] | {$ title $}"
-      description="[[project.decription]]"
+      description="[[project.description]]"
       active="[[opened]]"
     ></polymer-helmet>
 
@@ -49,18 +50,26 @@
 
       <div class="dialog-container content">
 
+        <p>Current pledge: [[currentPledge]]</p>
+
         <marked-element class="description" markdown="[[project.description]]">
           <div slot="markdown-html"></div>
         </marked-element>
 
+        <paper-number-input
+          label="Pledge amount (US Dollars, increments of $10)"
+          min="0"
+          max="100000"
+          value={{updatedPledge}}
+          step="10"
+          fallback-value="0"
+        ></paper-number-input>
         <paper-button class="animated icon-right"
                       on-tap="_pledge"
                       invert
                       raised
                       >
-          <span class="cta-label">Pledge $5!</span>
-          <iron-icon icon$="hoverboard:[[ctaIcon]]"></iron-icon>
-          {{this.id}}
+          <span class="cta-label">[[_getLabel(currentPledge, updatedPledge)]]</span>
          </paper-button>
       </div>
     </app-header-layout>
@@ -104,6 +113,10 @@
             type: Object,
             statePath: 'projects.fetchingError',
           },
+          currentPledge: {
+            type: Number,
+            computed: '_getCurrentPledge(project)',
+          },
           user: {
             type: Object,
             statePath: 'user',
@@ -111,6 +124,9 @@
           registered: {
             type: Boolean,
             statePath: 'registered',
+          },
+          updatedPledge: {
+            type: Number      
           }
         };
       }
@@ -136,6 +152,25 @@
         dialogsActions.closeDialog(DIALOGS.PROJECT);
       }
 
+      _getCurrentPledge(project) {
+        if (this.user.signedIn && this.project && this.project.contributions) {
+          console.log(this.project);
+          return project.contributions[this.user.uid];
+        }
+      }
+
+      _getLabel(currentPledge, updatedPledge) {
+        if (currentPledge && updatedPledge) {
+          if (parseInt(updatedPledge) === 0) {
+            return "DELETE PLEDGE"
+          }
+          if (parseFloat(this.updatedPledge) != parseFloat(currentPledge)) {
+            return "UPDATE PLEDGE";
+          }
+        }
+        return "PLEDGE";
+      }
+
       _pledge(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -155,19 +190,32 @@
 
         this.dispatch(userActions.isRegistered(this.user.email));
 
-        if (!this.registered) {
-          toastActions.showToast({
-            message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
-            duration:10000,
-          });
-          return;
-        }
+        // if (!this.registered) {
+        //   toastActions.showToast({
+        //     message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
+        //     duration:10000,
+        //   });
+        //   return;
+        // }
 
 
         // Maybe use email address as a key instead?
 
-        this.project.contributions[this.user.uid] = 5;
-        this.dispatch(fundraiserActions.pledge(this.project.id, this.project));
+        const updatedPledge = parseFloat(this.updatedPledge)
+
+        if (!updatedPledge || updatedPledge < 0 || updatedPledge > 100000) {
+          return;
+        }
+
+        var toastText;
+
+        if (updatedPledge <= 0.0) {
+          toastText = "Pledge deleted";
+          delete this.project.contributions[this.user.uid];
+        } else {
+          this.project.contributions[this.user.uid] = updatedPledge;
+        }
+        this.dispatch(fundraiserActions.pledge(this.project.id, this.project, toastText));
       }
 
       _getCloseBtnIcon(isLaptopViewport) {

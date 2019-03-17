@@ -243,6 +243,7 @@
             data-route="fundraiser"
             data-path="pages/fundraiser-page.html"
             route="[[subroute]]"
+            query-params="[[queryParams]]"
           ></fundraiser-page>
         </iron-lazy-pages>
 
@@ -389,6 +390,9 @@
           });
         });
         this.dispatch(ticketsActions.fetchTickets());
+        if (this.user && this.user.email) {
+          this.dispatch(userActions.isRegistered(this.user.email));            
+        }
       }
 
       disconnectedCallback() {

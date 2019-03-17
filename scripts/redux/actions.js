@@ -428,7 +428,7 @@ const fundraiserActions = {
         helperActions.trackError('projectActions', 'submit', error);
       });
   },
-  pledge: (id, project) => (dispatch) => {
+  pledge: (id, project, toastText) => (dispatch) => {
     dispatch({
       type: ADD_PLEDGE,
     });
@@ -438,13 +438,13 @@ const fundraiserActions = {
       .set(project)
       .then(() => {
         dialogsActions.closeDialog(DIALOGS.PROJECT);
-        toastActions.showToast({ message: 'Pledge submitted!' });
+        toastActions.showToast({ message: toastText ? toastText : 'Pledge submitted!' });
       })
       .catch((error) => {
         dispatch({
           type: SET_DIALOG_DATA,
           dialog: {
-            ['submit-project']: {
+            ['project-details']: {
               isOpened: true,
               data: Object.assign(data, { errorOccurred: true }),
             },
@@ -796,26 +796,6 @@ const userActions = {
         });
       });
     },
-      //   firebase.firestore()
-  //     .collection('featuredSessions')
-  //     .doc(userId)
-  //     .get()
-  //     .then((doc) => {
-  //       dispatch({
-  //         type: FETCH_USER_FEATURED_SESSIONS_SUCCESS,
-  //         payload: {
-  //           featuredSessions: doc.exists ? doc.data() : {},
-  //         },
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       dispatch({
-  //         type: FETCH_USER_FEATURED_SESSIONS_FAILURE,
-  //         payload: { error },
-  //       });
-  //     });
-  // },
-
 };
 
 const subscribeActions = {
@@ -1023,6 +1003,9 @@ const helperActions = {
         actualProvider,
         pendingCredential,
       };
+
+      console.log("check register");
+      userActions.isRegistered(email);
     }
 
     store.dispatch({

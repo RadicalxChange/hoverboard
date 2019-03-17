@@ -101,6 +101,7 @@
       route="[[route]]"
       pattern="/:projectId"
       data="{{routeData}}"
+      query-params="[[queryParams]]"
     ></app-route>
 
     <hero-block
@@ -200,6 +201,7 @@
         return {
           route: Object,
           routeData: Object,
+          queryParams: Object,
           active: Boolean,
           contentLoaderVisibility: {
             type: String,
@@ -339,9 +341,9 @@
             store.dispatch(fundraiserActions.fetchList());
           });
 
-        if (!this.user.signedIn) {
-           dialogsActions.openDialog(DIALOGS.SIGNIN);
-        }
+        // if (!this.user.signedIn) {
+        //    dialogsActions.openDialog(DIALOGS.SIGNIN);
+        // }
 
         // Confirm the link is a sign-in with email link.
         if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
@@ -361,7 +363,8 @@
             .then(function(result) {
               // Clear email from storage.
               console.log(result);
-              window.localStorage.removeItem('emailForSignIn');          
+              window.localStorage.removeItem('emailForSignIn');
+              // this.set('queryParams', null);          
 
               // You can access the new user via result.user
               // Additional user info profile not available via:
@@ -405,7 +408,7 @@
           return;
         }
 
-        //const registered = userActions.isRegistered(this.user.email);
+        this.dispatch(userActions.isRegistered(this.user.email));
 
         // var isRegistered;
 
@@ -417,13 +420,13 @@
         //      _setRegistration(doc.exists); 
         //   });
 
-        if (!this.registered) {
-          toastActions.showToast({
-            message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
-            duration:10000,
-          });
-          return;
-        }
+        // if (!this.registered) {
+        //   toastActions.showToast({
+        //     message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
+        //     duration:10000,
+        //   });
+        //   return;
+        // }
 
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
             title: 'Submit a project idea',
