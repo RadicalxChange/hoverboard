@@ -155,7 +155,7 @@
  -->
 
     <div class="container">
-      <template is="dom-repeat" items="[[projects]]" as="project">
+      <template is="dom-repeat" items="[[projects]]" as="project" sort="_sort">
         <a class="project card"
            href$="/fundraiser/[[project.id]]/"
            ga-on="click"
@@ -328,6 +328,15 @@
 
       _registrationChanged(registration) {
         this.registration = registration;
+      }
+
+      _sort(project1, project2) {
+        var p1match = this._projectMatching(project1.id, this.alpha);
+        var p2match = this._projectMatching(project2.id, this.alpha);
+        if (p1match === p2match) {
+          return 1;
+        }
+        return p1match > p2match ? -1 : 1;
       }
 
       connectedCallback() {
