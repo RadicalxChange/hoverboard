@@ -187,8 +187,8 @@
       </div>      
     </div>
 
-    <footer-block></footer-block>
-  </template>
+<!--     <footer-block></footer-block>
+ -->  </template>
 
   <script>
 
@@ -361,7 +361,7 @@
       }
 
       _removeQueryParams() {
-        window.history.replaceState({}, document.title, this.route.prefix);
+        window.history.replaceState({}, document.title, this.route.prefix + this.route.path);
       }
 
       _setRegistration(exists) {
@@ -374,15 +374,15 @@
         event.stopPropagation();
 
         if (!this.user.signedIn) {
-          toastActions.showToast({
-            message: 'Confirm your email to submit project ideas!',
-            action: {
-              title: 'Confirm',
-              callback: () => {
+          // toastActions.showToast({
+          //   message: 'Confirm your email to submit project ideas!',
+          //   action: {
+          //     title: 'Click here',
+          //     callback: () => {
                 dialogsActions.openDialog(DIALOGS.SIGNIN);
-              },
-            },
-          });
+            //   },
+            // },
+//          });
           return;
         }
 

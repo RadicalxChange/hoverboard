@@ -235,7 +235,7 @@
 
         const emailInput = this.shadowRoot.querySelector('#emailInput');
 
-        if (!emailInput.validate() || !this._validateEmail(emailInput.value)) {
+        if (this._validateEmail(emailInput.value)) {
           emailInput.invalid = true;
           return;
         }

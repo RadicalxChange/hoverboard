@@ -126,7 +126,8 @@
             statePath: 'registered',
           },
           updatedPledge: {
-            type: Number      
+            type: Number,
+            value: 20,      
           }
         };
       }
@@ -149,6 +150,11 @@
       }
 
       _close() {
+        // This helps when there was a deeplink to a fundraiser project, ensures that when 
+        // The dialog gets closed it goes back to the fundraiser screen.
+        window.history.pushState({}, null, '/fundraiser/');
+        window.dispatchEvent(new CustomEvent('location-changed'));
+
         dialogsActions.closeDialog(DIALOGS.PROJECT);
       }
 
@@ -176,15 +182,15 @@
         event.stopPropagation();
 
         if (!this.user.signedIn) {
-          toastActions.showToast({
-            message: 'Confirm email to pledge!',
-            action: {
-              title: 'Confirm',
-              callback: () => {
+          // toastActions.showToast({
+          //   message: 'Confirm email to pledge!',
+          //   action: {
+          //     title: 'Click here',
+          //     callback: () => {
                 dialogsActions.openDialog(DIALOGS.SIGNIN);
-              },
-            },
-          });
+            //   },
+            // },
+          // });
           return;
         }
 
@@ -203,15 +209,19 @@
 
         const updatedPledge = parseFloat(this.updatedPledge)
 
-        if (!updatedPledge || updatedPledge < 0 || updatedPledge > 100000) {
+        if (updatedPledge == null || updatedPledge < 0 || updatedPledge > 1000000) {
           return;
         }
 
         var toastText;
 
-        if (updatedPledge <= 0.0) {
-          toastText = "Pledge deleted";
-          delete this.project.contributions[this.user.uid];
+        if (updatedPledge <= 0.0) { 
+          if (this.currentPledge) {
+            toastText = "Pledge deleted";
+            delete this.project.contributions[this.user.uid];
+          } else {
+            toastText = "No pledge made";
+          }
         } else {
           this.project.contributions[this.user.uid] = updatedPledge;
         }
