@@ -62,6 +62,14 @@
         --paper-progress-secondary-color: var(--default-primary-color);
       }
 
+      paper-slider {
+        --paper-slider-height: 4px;
+        width: 140px;
+        --paper-slider-active-color: var(--default-primary-color);
+        --paper-slider-secondary-color: var(--default-secondary-color);
+        --paper-slider-knob-color: var(--default-secondary-color);
+      }
+
       @media (min-width: 640px) {
         .container {
           grid-template-columns: repeat(2, 1fr);
@@ -180,7 +188,7 @@
             <h3 class="contributions">Pledges: {{_contrLength(project.id)}}</h3>
             <h3 class="contributions">Pledge value: ${{_contrSum(project.id)}}</h3>
             <h3 class="contributions">Estimated match: ${{_projectMatching(project.id, alpha)}}</h3>
-            <h3 class="contributions">Requested budget: $[[project.email]]</h3>
+            <h3 class="contributions">Requested budget: $[[project.budget]]</h3>
            
           </div>
         </a>
@@ -426,10 +434,10 @@
         // }
 
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
-            title: 'Submit a project idea',
+            title: 'Submit a project',
             submitLabel: ' Submit!',
-            firstFieldLabel: 'Project Title',
-            secondFieldLabel: 'Project Description. Recommended: Paste in from elsewhere.',
+            firstFieldLabel: 'Project Title *',
+            secondFieldLabel: 'Project Description *',
             submit: (data) => this._submitAction(data),
         });
       }

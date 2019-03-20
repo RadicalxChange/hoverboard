@@ -400,6 +400,8 @@ const fundraiserActions = {
       });
   },
   create: (data) => (dispatch) => {
+    dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
+    toastActions.showToast({ message: 'Project submitted!' });
     dispatch({
       type: CREATE_PROJECT,
     });
@@ -407,14 +409,11 @@ const fundraiserActions = {
       .add({
         name: data.firstFieldValue,
         description: data.secondFieldValue || '',
-        email: data.email,
+        budget: data.budget,
         contributions: {},
       })
-      .then(() => {
-        dialogsActions.closeDialog(DIALOGS.NEW_PROJECT);
-        toastActions.showToast({ message: 'Project submitted!' });
-      })
       .catch((error) => {
+        alert(error);
         dispatch({
           type: SET_DIALOG_DATA,
           dialog: {
@@ -1049,7 +1048,6 @@ const helperActions = {
         pendingCredential,
       };
 
-      console.log("check register");
       userActions.isRegistered(email);
     }
 
