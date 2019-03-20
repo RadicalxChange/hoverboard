@@ -762,6 +762,7 @@ const userActions = {
       .catch(function (error) {
         // Some error occurred, you can inspect the code: error.code
         helperActions.trackError('userActions', 'signInWithEmail', error);
+        alert(error);
       });
   },
 
@@ -796,13 +797,9 @@ const userActions = {
           // You can check if the user is new or existing:
           // result.additionalUserInfo.isNewUser
         })
-        .then(() => {
-          console.log("i'd like to remove queryParams now");
-        })
         .catch(function (error) {
           // Some error occurred, you can inspect the code: error.code
           // Common errors could be invalid email and invalid or expired OTPs.
-          console.log(error);
           alert(error);
         });
       }

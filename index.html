@@ -126,7 +126,7 @@
           messagingSenderId: '{$ firebase.messagingSenderId $}',
         });
 
-        firebase.firestore();
+        firebase.firestore().enablePersistence();
 
         // eslint-disable-next-line no-console
         console.log('Firebase App is ready!');

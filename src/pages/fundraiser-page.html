@@ -22,6 +22,11 @@
       :host {
         display: block;
         height: 100%;
+
+        --paper-slider-input: {
+          display: none;
+          width: 0px;
+        }
       }
 
       .container {
@@ -57,10 +62,6 @@
         --paper-progress-secondary-color: var(--default-primary-color);
       }
 
-      paper-input.slider-input {
-        display: none;
-      }
-
       @media (min-width: 640px) {
         .container {
           grid-template-columns: repeat(2, 1fr);
@@ -86,7 +87,14 @@
       table {
         margin-left: auto;
         margin-right: auto;
-        font-size: 16px;
+        font-style: italic;
+        font-weight: bold;
+      }
+
+      @media (min-width: 812px) {
+        table {
+          font-size: 24px;
+        }
       }
 
     </style>
@@ -112,14 +120,16 @@
     >
       <div class="hero-title highlight-font">CLR Fundraiser</div>
 
-        <marked-element class="description" markdown='{$ fundraiser.rules $}'>
+        <marked-element class="description" markdown='{$ fundraiser.rules $}' hidden='[[!showRules]]'>
           <div slot="markdown-html"></div>
         </marked-element>
 
+<!--       <h4> How radical will we go? </h4>  
+ -->
       <table class="alpha-slider">
-        <tr>
+        <tr> 
           <td>
-            Capitalist
+            CAPITALIST
           </td>
           <td>
             <paper-slider
@@ -130,12 +140,13 @@
              </paper-slider>            
           </td>
           <td>
-            % Radical
+            RADICAL
           </td>
         </tr>
       </table>
 
-      <h2 class="contributions">Tap a project to view details and contribute</h2>
+      <h5 class="contributions">Tap a project to view details and contribute</h5>
+      <h5 class="contributions">Having trouble? Email muldoon.mickey@gmail.com</h5>
 
     </hero-block>
 
@@ -250,6 +261,10 @@
             type: Boolean,
             statePath: 'registered',
             observer: '_registrationChanged',
+          },
+          rulesShown: {
+            type: Boolean,
+            value: true,
           }
         };
       }
@@ -353,6 +368,10 @@
         if (this.user.signedIn) {
            this._removeQueryParams();
         }
+
+        // const sliderLabel = this.shadowRoot.getElementsByTagName('paper-input-container');
+        // sliderLabel.style.display('none');
+
       }
 
       disconnectedCallback() {
