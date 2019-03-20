@@ -25,6 +25,26 @@
         color: var(--secondary-text-color);
       }
 
+      .cta-button {
+        margin-top: 50px;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+
+      }
+
+      .your-pledge {
+        margin-left: 80px;
+        margin-bottom: 32px;
+        font-weight: bold;
+        font-color: var(--secondary-text-color);
+      }
+
+      paper-number-input {
+        max-width: 140px;
+        margin: auto;
+      }
+
     </style>
 
     <polymer-helmet
@@ -46,12 +66,11 @@
             <h2 class="name" flex>[[project.name]]</h2>
           </div>
         </app-toolbar>
+        <div class="your-pledge" hidden='[[_hidePledge(currentPledge)]]'>Your Current pledge: $ [[currentPledge]]</div>
+
       </app-header>
 
       <div class="dialog-container content">
-
-        <p>Current pledge: [[currentPledge]]</p>
-
         <marked-element class="description" markdown="[[project.description]]">
           <div slot="markdown-html"></div>
         </marked-element>
@@ -64,12 +83,17 @@
           step="10"
           fallback-value="0"
         ></paper-number-input>
-        <paper-button class="animated icon-right"
+        <paper-button class="cta-button animated icon-right"
                       on-tap="_pledge"
-                      invert
                       raised
+                      primary
+                      animate
+                      layout
+                      horizontal
+                      justified
                       >
           <span class="cta-label">[[_getLabel(currentPledge, updatedPledge)]]</span>
+          <iron-icon icon="hoverboard:arrow-right-circle"></iron-icon>
          </paper-button>
       </div>
     </app-header-layout>
@@ -160,7 +184,6 @@
 
       _getCurrentPledge(project) {
         if (this.user.signedIn && this.project && this.project.contributions) {
-          console.log(this.project);
           return project.contributions[this.user.uid];
         }
       }
@@ -175,6 +198,10 @@
           }
         }
         return "PLEDGE";
+      }
+
+      _hidePledge(currentPledge) {
+        return !currentPledge || currentPledge == null || currentPledge == undefined || currentPledge === 0;
       }
 
       _pledge(event) {

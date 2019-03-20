@@ -66,6 +66,10 @@
         color: var(--secondary-text-color);
       }
 
+      .name {
+        margin-left: 16px;
+      }
+
       .general-error {
         margin: 0 32px;
         color: var(--error-color);
@@ -81,7 +85,7 @@
       <app-header slot="header" class="header" fixed="[[viewport.isTabletPlus]]">
         <iron-icon
           class="close-icon"
-          icon="hoverboard:[[_getCloseBtnIcon(viewport.isLaptopPlus)]]"
+          icon="hoverboard:[[_getCloseBtnIcon(viewport.isLaptopPlus, previewMode)]]"
           on-tap="_close"
         ></iron-icon>
 
@@ -132,21 +136,21 @@
 
         </div>
 
-        <div class="action-buttons" layout horizontal justified>
+        <div class="cta-button" layout horizontal justified>
           <paper-button
             class="close-button"
             on-tap="_closeDialog"
-          >{$ subscribeBlock.close $}
+          >Abandon
           </paper-button>
 
           <paper-button
-            class="edit-button"
             on-tap="_leavePreview"
             hidden$="[[!previewMode]]"
           >Edit
           </paper-button>
 
           <paper-button
+            class="animated cta-button"
             on-tap="_submit"
             ga-on="click"
             ga-event-category="projects"
@@ -154,8 +158,9 @@
             ga-event-label="submit button"
             primary
             invert
+            raiser
           >
-           [[_getSubmitLabel(previewMode)]]
+           <span class="cta-label">[[_getSubmitLabel(previewMode)]]</span>
           </paper-button>
         </div>
 
@@ -255,6 +260,7 @@
         this.submitLabel = data.submitLabel || ' Submit!';
         this.firstFieldLabel = data.firstFieldLabel || 'Project Title';
         this.secondFieldLabel = data.secondFieldLabel || 'Project Description. Recommended: paste in from elsewhere.';
+        this.previewMode = false;
         this._prefillFields(data);
       }
 
@@ -274,8 +280,8 @@
         return this.previewMode? "Submit" : "Preview";
       }
 
-      _getCloseBtnIcon(isLaptopViewport) {
-        return isLaptopViewport ? 'close' : 'arrow-left';
+      _getCloseBtnIcon(isLaptopViewport, previewMode) {
+        return previewMode? '' : (isLaptopViewport ? 'close' : 'arrow-left');
       }
 
 
@@ -294,7 +300,6 @@
 
         const descriptionInput = this.shadowRoot.querySelector('#descriptionInput');
         const description = descriptionInput.value;
-        console.log(description);
 
         if (description == undefined || description.trim() === "") {
           descriptionInput.invalid = true;
@@ -325,6 +330,12 @@
           firstFieldValue: this.firstFieldValue,
           secondFieldValue: this.secondFieldValue,
         });
+
+        // Everything checks out, now we clear out the fields and submit
+        this.firstFieldValue = null;
+        this.secondFieldValue = null;
+        this.budget = null;
+
       }
 
       _validateBudget(budget) {
@@ -337,20 +348,20 @@
       }
 
       _prefillFields(userData) {
-        this.validate = false;
-        const firstField = this.shadowRoot.querySelector('#titleInput');
-        const secondField = this.shadowRoot.querySelector('#descriptionInput');
-        const budgetInput = this.shadowRoot.querySelector('#budgetInput');
-        firstField.value = userData ? userData.firstFieldValue : '';
-        secondField.value = userData ? userData.secondFieldValue : '';
-        firstField.focus();
-        firstField.blur();
-        secondField.focus();
-        secondField.blur();
-        budgetInput.blur();
-        budgetInput.value = '';
-        budgetInput.invalid = false;
-        this.validate = true;
+        // this.validate = false;
+        // const firstField = this.shadowRoot.querySelector('#titleInput');
+        // const secondField = this.shadowRoot.querySelector('#descriptionInput');
+        // const budgetInput = this.shadowRoot.querySelector('#budgetInput');
+        // firstField.value = userData ? userData.firstFieldValue : '';
+        // secondField.value = userData ? userData.secondFieldValue : '';
+        // firstField.focus();
+        // firstField.blur();
+        // secondField.focus();
+        // secondField.blur();
+        // budgetInput.blur();
+        // budgetInput.value = '';
+        // budgetInput.invalid = false;
+        // this.validate = true;
       }
 
       _focus(e) {

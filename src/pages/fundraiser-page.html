@@ -92,17 +92,39 @@
         min-height: 100%;
       }
 
-      table {
+      table, .hero-title {
         margin-left: auto;
         margin-right: auto;
         font-style: italic;
         font-weight: bold;
+        text-align: center;
       }
+
+      .message {
+        margin-left: 32px;
+        margin-top: 32px;
+        margin-bottom: 32px;
+        margin-right: 32px;
+      }
+
+      .cta-label {
+        font-size: 15px;
+        font-weight: bold;
+      }
+
 
       @media (min-width: 812px) {
         table {
           font-size: 24px;
         }
+        .cta-label {
+          font-size: 20px;
+        }
+      }
+
+      paper-button iron-icon {
+        --iron-icon-height: 40px;
+        --iron-icon-width: 40px;
       }
 
     </style>
@@ -126,7 +148,7 @@
       font-color="{$ heroSettings.speakers.fontColor $}"
       active="[[active]]"
     >
-      <div class="hero-title highlight-font">CLR Fundraiser</div>
+      <div class="hero-title highlight-font">FUNDRAISER</div>
 
         <marked-element class="description" markdown='{$ fundraiser.rules $}' hidden='[[!showRules]]'>
           <div slot="markdown-html"></div>
@@ -153,9 +175,6 @@
         </tr>
       </table>
 
-      <h5 class="contributions">Tap a project to view details and contribute</h5>
-      <h5 class="contributions">Having trouble? Email muldoon.mickey@gmail.com</h5>
-
     </hero-block>
 
     <paper-progress indeterminate hidden$="[[contentLoaderVisibility]]"></paper-progress>
@@ -173,7 +192,24 @@
     ></content-loader>
  -->
 
+    <h4 class="message">Tap a project to view details and contribute. Having trouble? Email muldoon.mickey@gmail.com</h5>
+
+    <paper-button class="animated icon-right message"
+                  on-tap="_add"
+                  ga-on="click"
+                  raised
+                  primary
+                  animate
+                  layout 
+                  horizontal 
+                  center
+                  >
+      <span class="cta-label">What should we bring to life?</span>
+      <iron-icon icon="hoverboard:arrow-right-circle"></iron-icon>
+    </paper-button>
+
     <div class="container">
+
       <template is="dom-repeat" items="[[projects]]" as="project" sort="_sort">
         <a class="project card"
            href$="/fundraiser/[[project.id]]/"
@@ -193,21 +229,23 @@
           </div>
         </a>
       </template>
-      <div class="cta-button">
-        <paper-button class="animated icon-right"
+<!--       <div class="cta-button" hidden$="[[projects.length < 9]]">
+        <paper-button class="cta-button animated icon-right"
                       on-tap="_add"
                       ga-on="click"
-                      invert
                       raised
+                      primary
+                      animate
+                      layout
+                      horizontal
+                      center
                       >
-          <span class="cta-label">Add a project!</span>
-          <iron-icon icon$="hoverboard:[[ctaIcon]]"></iron-icon>
+          <span class="cta-label">Your idea here</span>
+          <iron-icon icon="hoverboard:arrow-right-circle"></iron-icon>
         </paper-button>
       </div>      
-    </div>
-
-<!--     <footer-block></footer-block>
- -->  </template>
+ -->    </div>
+  </template>
 
   <script>
 
@@ -434,10 +472,11 @@
         // }
 
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
-            title: 'Submit a project',
+            title: 'Suggest a project',
             submitLabel: ' Submit!',
             firstFieldLabel: 'Project Title *',
             secondFieldLabel: 'Project Description *',
+            previewMode: false,
             submit: (data) => this._submitAction(data),
         });
       }

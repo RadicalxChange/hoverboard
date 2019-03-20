@@ -145,7 +145,7 @@
         class="nav-items"
         selected="[[route.route]]"
         attr-for-selected="name"
-        hidden$="[[!viewport.isLaptopPlus]]"
+        hidden$="[[_hideTabs(route, viewport)]]"
         role="navigation"
         noink
       >
@@ -354,6 +354,10 @@
           '--hero-logo-opacity': settings.hideLogo ? '0' : '1',
           '--hero-logo-color': settings.backgroundImage ? '#fff' : 'var(--default-primary-color)',
         });
+      }
+
+      _hideTabs(route, viewport) {
+        return !viewport.isLaptopPlus || route.route == "fundraiser";
       }
     }
 
