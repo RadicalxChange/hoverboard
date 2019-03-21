@@ -428,7 +428,6 @@ const fundraiserActions = {
       });
   },
   pledge: (id, project, toastText) => (dispatch) => {
-
     dialogsActions.closeDialog(DIALOGS.PROJECT);
     toastActions.showToast({ message: toastText ? toastText : 'Pledge submitted!' });
 
@@ -769,7 +768,6 @@ const userActions = {
   },
 
   checkEmailSignin: ()=> {
-
     // Confirm the link is a sign-in with email link.
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       // Additional state parameters can also be passed via URL.
@@ -783,6 +781,8 @@ const userActions = {
         // attacks, ask the user to provide the associated email again. For example:
         email = window.prompt('Please provide your email for confirmation');
       }
+
+      // eslint-disable-next-line max-len, no-useless-escape
       const emailRegularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       const validEmail = emailRegularExpression.test(email);
       if (validEmail) {
@@ -1052,7 +1052,6 @@ const helperActions = {
         pendingCredential,
       };
 
-      console.log("got started");
       userActions.isRegistered(email);
     }
 

@@ -391,7 +391,7 @@
         });
         this.dispatch(ticketsActions.fetchTickets());
         if (this.user && this.user.email) {
-          this.dispatch(userActions.isRegistered(this.user.email));            
+          this.dispatch(userActions.isRegistered(this.user.email));
         }
       }
 
@@ -409,7 +409,7 @@
         this.removeAttribute('unresolved');
         this._ensureLazyLoaded();
         userActions.updateUser();
-        userActions.checkEmailSignin();          
+        userActions.checkEmailSignin();
       }
 
       closeDrawer() {

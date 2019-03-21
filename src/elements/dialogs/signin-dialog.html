@@ -182,13 +182,13 @@
       _close() {
         this.isMergeState = false;
         this.emailSigninSelected = false;
-        this.email = "";
+        this.email = '';
         dialogsActions.closeDialog(DIALOGS.SIGNIN);
       }
 
       _signIn(event) {
         const providerUrl = event.target.getAttribute('provider-url');
-        if (providerUrl==="email") {
+        if (providerUrl==='email') {
           this.emailSigninSelected = !this.emailSigninSelected;
         } else {
           userActions.signIn(providerUrl);
@@ -205,13 +205,12 @@
 
         // This is nasty but I'm doing it here to work around some problems
         // with the queryparams that google provides for email signin.
-        userActions.signInWithEmail(emailInput.value, window.location.origin + "/fundraiser");
+        userActions.signInWithEmail(emailInput.value, window.location.origin + '/fundraiser');
       }
 
       _focus(e) {
         e.target.focus();
       }
-
 
       _validateEmail(email) {
         /* eslint-disable */
@@ -219,9 +218,8 @@
         return emailRegularExpression.test(email);
         /* eslint-enable */
       }
-
     }
-
+    
     window.customElements.define(SigninDialog.is, SigninDialog);
   </script>
 </dom-module>

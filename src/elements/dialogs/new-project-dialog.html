@@ -256,7 +256,7 @@
         this.title = data.title || 'Create a new project!';
         this.submitLabel = data.submitLabel || ' Submit!';
         this.firstFieldLabel = data.firstFieldLabel || 'Project Title';
-        this.secondFieldLabel = data.secondFieldLabel || 'Project Description. Recommended: paste in from elsewhere.';
+        this.secondFieldLabel = data.secondFieldLabel || 'Project Description';
         this.previewMode = false;
         this._prefillFields(data);
       }
@@ -274,7 +274,7 @@
       }
 
       _getSubmitLabel() {
-        return this.previewMode? "Submit" : "Preview";
+        return this.previewMode? 'Submit' : 'Preview';
       }
 
       _getCloseBtnIcon(isLaptopViewport, previewMode) {
@@ -283,12 +283,11 @@
 
 
       _submit() {
-
         const titleInput = this.shadowRoot.querySelector('#titleInput');
         const title = titleInput.value;
         var invalid = false;
 
-        if (title == undefined || title.trim() === "") {
+        if (title == undefined || title.trim() === '') {
           titleInput.invalid = true;
           invalid = true;
         } else {
@@ -298,7 +297,7 @@
         const descriptionInput = this.shadowRoot.querySelector('#descriptionInput');
         const description = descriptionInput.value;
 
-        if (description == undefined || description.trim() === "") {
+        if (description == undefined || description.trim() === '') {
           descriptionInput.invalid = true;
           invalid = true;
         } else {
@@ -317,7 +316,7 @@
           return;
         }
 
-        if(!this.previewMode) {
+        if (!this.previewMode) {
           this.previewMode = true;
           return;
         }
@@ -332,9 +331,7 @@
         this.firstFieldValue = null;
         this.secondFieldValue = null;
         this.budget = null;
-
       }
-
       _validateBudget(budget) {
         const value = parseFloat(budget);
         return value > 100;
