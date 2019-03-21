@@ -428,6 +428,10 @@ const fundraiserActions = {
       });
   },
   pledge: (id, project, toastText) => (dispatch) => {
+
+    dialogsActions.closeDialog(DIALOGS.PROJECT);
+    toastActions.showToast({ message: toastText ? toastText : 'Pledge submitted!' });
+
     dispatch({
       type: ADD_PLEDGE,
     });
@@ -435,10 +439,6 @@ const fundraiserActions = {
       .collection('projects')
       .doc(id)
       .set(project)
-      .then(() => {
-        dialogsActions.closeDialog(DIALOGS.PROJECT);
-        toastActions.showToast({ message: toastText ? toastText : 'Pledge submitted!' });
-      })
       .catch((error) => {
         dispatch({
           type: SET_DIALOG_DATA,

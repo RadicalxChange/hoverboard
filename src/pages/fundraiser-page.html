@@ -3,6 +3,9 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
 
 <link rel="import" href="../mixins/utils-functions.html">
 <link rel="import" href="../mixins/redux-mixin.html">
@@ -10,7 +13,7 @@
 <link rel="import" href="../elements/text-truncate.html">
 <link rel="import" href="../elements/shared-styles.html">
 <link rel="import" href="../elements/content-loader.html">
-
+<link rel="import" href="../elements/hoverboard-icons.html">
 
 <dom-module id="fundraiser-page">
   <template>
@@ -122,6 +125,39 @@
         }
       }
 
+      .badges {
+        position: absolute;
+        top: 0;
+        left: calc(50% + 32px);
+      }
+
+      .badge {
+        margin-left: -10px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        transition: transform var(--animation);
+      }
+
+      .badge:hover {
+        transform: scale(1.1);
+      }
+
+      .badge:nth-of-type(2) {
+        transform: translate(25%, 75%);
+      }
+
+      .badge:nth-of-type(2):hover {
+        transform: translate3d(25%, 75%, 20px) scale(1.1);
+      }
+
+      .badge-icon {
+        --iron-icon-width: 12px;
+        --iron-icon-height: 12px;
+        color: #fff;
+      }
+
       paper-button iron-icon {
         --iron-icon-height: 40px;
         --iron-icon-width: 40px;
@@ -175,6 +211,8 @@
         </tr>
       </table>
 
+      <h5>Adjusting the slider will change the matching funding formula; all the way to the right will fully fund the projects according to the Liberal Radicalism mechanism, and all the way to the left is standard capitalism with no matching. We hope to fully fund each project, but we will determine the final "alpha" slider value after matching funds are secured.</h5>
+
     </hero-block>
 
     <paper-progress indeterminate hidden$="[[contentLoaderVisibility]]"></paper-progress>
@@ -225,8 +263,12 @@
             <h3 class="contributions">Pledge value: ${{_contrSum(project.id)}}</h3>
             <h3 class="contributions">Estimated match: ${{_projectMatching(project.id, alpha)}}</h3>
             <h3 class="contributions">Requested budget: $[[project.budget]]</h3>
-           
+            <div class="badges" layout horizontal>
+              <iron-icon class="badge-icon badge" icon="hoverboard:account" layout horizontal   center-center></iron-icon>
+            </div>
+
           </div>
+
         </a>
       </template>
 <!--       <div class="cta-button" hidden$="[[projects.length < 9]]">
