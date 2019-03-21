@@ -196,7 +196,6 @@
       }
 
       _signInViaEmail() {
-        console.log("trying to sign in");
         const emailInput = this.shadowRoot.querySelector('#emailInput');
 
         if (!emailInput.validate() || !this._validateEmail(emailInput.value)) {
@@ -204,8 +203,9 @@
           return;
         }
 
-        console.log("Sign in via email: " + emailInput.value);
-        userActions.signInWithEmail(emailInput.value, window.location.href);
+        // This is nasty but I'm doing it here to work around some problems
+        // with the queryparams that google provides for email signin.
+        userActions.signInWithEmail(emailInput.value, window.location.origin + "/fundraiser");
       }
 
       _focus(e) {

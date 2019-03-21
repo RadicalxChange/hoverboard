@@ -111,7 +111,7 @@
       }
 
       .cta-label {
-        font-size: 15px;
+        font-size: 13px;
         font-weight: bold;
       }
 
@@ -230,7 +230,7 @@
     ></content-loader>
  -->
 
-    <h4 class="message">Tap a project to view details and contribute. Having trouble? Email muldoon.mickey@gmail.com</h5>
+    <h4 class="message">Tap a project to view details and contribute. Having trouble? Email webdev.radicalxchange@gmail.com</h5>
 
     <paper-button class="animated icon-right message"
                   on-tap="_add"
@@ -238,8 +238,8 @@
                   raised
                   primary
                   animate
-                  layout 
-                  horizontal 
+                  layout
+                  horizontal
                   center
                   >
       <span class="cta-label">What should we bring to life?</span>
@@ -361,6 +361,7 @@
         return [
           '_projectsChanged(projects)',
           '_openProjectDetails(active, projects, projectsMap, routeData.projectId)',
+          '_fetchRegistration(active, user.email)',
         ];
       }
 
@@ -378,6 +379,12 @@
           contributionsByProject[projectId] = contributionsList;
         }
         return contributionsByProject;
+      }
+
+      _fetchRegistration(active, email) {
+        if (active && email) {
+          this.dispatch(userActions.isRegistered(email));
+        }
       }
 
       _projectsChanged() {
@@ -446,7 +453,7 @@
       connectedCallback() {
         super.connectedCallback();
 
-        // Listen for updates on the data, and refresh then. So we can get realtime
+        // Listen for updates on the data, and refresh then. So we can get realtime updates
         this.snapshotUnsubscribe = firebase.firestore().collection('projects')
           .onSnapshot(function (snapshot) {
             // There's a correct way to do this but I didn't figure out how.
@@ -456,10 +463,6 @@
         if (this.user.signedIn) {
            this._removeQueryParams();
         }
-
-        // const sliderLabel = this.shadowRoot.getElementsByTagName('paper-input-container');
-        // sliderLabel.style.display('none');
-
       }
 
       disconnectedCallback() {
@@ -471,47 +474,20 @@
         window.history.replaceState({}, document.title, this.route.prefix + this.route.path);
       }
 
-      _setRegistration(exists) {
-        this.registered = exists;
-      }
-
       _add(event) {
         this._removeQueryParams();
         event.preventDefault();
         event.stopPropagation();
 
         if (!this.user.signedIn) {
-          // toastActions.showToast({
-          //   message: 'Confirm your email to submit project ideas!',
-          //   action: {
-          //     title: 'Click here',
-          //     callback: () => {
-                dialogsActions.openDialog(DIALOGS.SIGNIN);
-            //   },
-            // },
-//          });
+          dialogsActions.openDialog(DIALOGS.SIGNIN);
           return;
         }
 
-        this.dispatch(userActions.isRegistered(this.user.email));
-
-        // var isRegistered;
-
-        // firebase.firestore()
-        //   .collection('attendees2019')
-        //   .doc(this.user.email)
-        //   .get()
-        //   .then((doc) => {
-        //      _setRegistration(doc.exists); 
-        //   });
-
-        // if (!this.registered) {
-        //   toastActions.showToast({
-        //     message: 'Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to fundraiser@radicalxchange.org or stop by the fundraiser booth to get your name on the list!',
-        //     duration:10000,
-        //   });
-        //   return;
-        // }
+        if (!this.registered) {
+           alert('Your email address isn\'t yet associated with the conference! Make sure you\'re signed in with the same email address that\'s on your Eventbrite ticket. You can log out by tapping the upper-right corner of this web page, then log in again with a new address. Send an email to webdev.radicalxchange@gmail.com or stop by the fundraiser booth to get your name on the list!');
+          return;
+        }
 
         dialogsActions.openDialog(DIALOGS.NEW_PROJECT, {
             title: 'Suggest a project',
@@ -526,15 +502,6 @@
       _submitAction(data) {
         this.dispatch(fundraiserActions.create(data));
       }
-
-      // _routeChanged(active, route) {
-      //   if (active && route) {
-      //     this.scrollToY(0, 200);
-      //     this.set('subRoute', {});
-      //     this.set('_route', route);
-      //     routingActions.setSubRoute(this.routeData.page);
-      //   }
-      // }
 
       _openProjectDetails(active, projects, projectsMap, id) {
         if (projects && projects.length) {

@@ -737,6 +737,9 @@ const userActions = {
   updateUser: () => {
     firebase.auth().onAuthStateChanged((user) => {
       helperActions.storeUser(user);
+      if (user) {
+        userActions.isRegistered(user.email);
+      }
     });
   },
 
@@ -766,7 +769,8 @@ const userActions = {
   },
 
   checkEmailSignin: ()=> {
-      // Confirm the link is a sign-in with email link.
+
+    // Confirm the link is a sign-in with email link.
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
       // Additional state parameters can also be passed via URL.
       // This can be used to continue the user's intended action before triggering
@@ -786,9 +790,10 @@ const userActions = {
       firebase.auth().signInWithEmailLink(email, window.location.href)
         .then(function (result) {
           // Clear email from storage.
-          console.log(result);
           window.localStorage.removeItem('emailForSignIn');
-          // this.set('queryParams', null);        
+
+          // Clear out the query params.
+          window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
 
           // You can access the new user via result.user
           // Additional user info profile not available via:
@@ -799,14 +804,13 @@ const userActions = {
         .catch(function (error) {
           // Some error occurred, you can inspect the code: error.code
           // Common errors could be invalid email and invalid or expired OTPs.
-          alert(error);
+          alert(error + 'You are probably already signed in so this is no problem!');
         });
       }
       // if (this.user && this.user.email) {
-      //   this.dispatch(userActions.isRegistered(this.user.email));         
+      //   this.dispatch(userActions.isRegistered(this.user.email));
       // }
     }
-
   },
 
   signOut: () => {
@@ -825,7 +829,7 @@ const userActions = {
 
     firebase.firestore()
       .collection('attendees2019')
-      .doc(email)
+      .doc(email.toLowerCase())
       .get()
       .then((doc) => {
         dispatch({
@@ -1048,6 +1052,7 @@ const helperActions = {
         pendingCredential,
       };
 
+      console.log("got started");
       userActions.isRegistered(email);
     }
 
