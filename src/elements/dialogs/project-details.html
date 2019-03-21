@@ -66,7 +66,7 @@
             <h2 class="name" flex>[[project.name]]</h2>
           </div>
         </app-toolbar>
-        <div class="your-pledge" hidden='[[_hidePledge(currentPledge)]]'>Your Current pledge: $ [[currentPledge]]</div>
+        <div class="your-pledge">Your Current pledge: $ [[currentPledge]]</div>
 
       </app-header>
 
@@ -180,7 +180,10 @@
 
       _getCurrentPledge(project) {
         if (this.user.signedIn && this.project && this.project.contributions) {
-          return project.contributions[this.user.uid];
+          return project.contributions[this.user.uid] != null ?
+                  project.contributions[this.user.uid] : 0;
+        } else {
+          return 0;
         }
       }
 
@@ -194,11 +197,6 @@
           }
         }
         return 'PLEDGE';
-      }
-
-      _hidePledge(currentPledge) {
-        return !currentPledge || currentPledge === null || currentPledge === undefined
-                || currentPledge === 0;
       }
 
       _pledge(event) {

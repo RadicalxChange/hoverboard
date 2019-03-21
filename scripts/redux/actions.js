@@ -428,9 +428,8 @@ const fundraiserActions = {
       });
   },
   pledge: (id, project, toastText) => (dispatch) => {
-    dialogsActions.closeDialog(DIALOGS.PROJECT);
-    toastActions.showToast({ message: toastText ? toastText : 'Pledge submitted!' });
-
+    toastActions.showToast({ message: toastText ?
+      toastText : 'Pledge submitted! You can adjust or set to zero until the fundraiser ends!' });
     dispatch({
       type: ADD_PLEDGE,
     });
