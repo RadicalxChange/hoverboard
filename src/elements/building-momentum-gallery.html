@@ -1,20 +1,19 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="./barcode-header.html">
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+<link rel="import" href="./barcode-header.html" />
 
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="./shared-styles.html">
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="./shared-styles.html" />
 
 <dom-module id="building-momentum-gallery">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment"></style>
 
     <style>
-
       :host {
-        display: block;  
+        display: block;
       }
 
       .photos-grid {
@@ -53,7 +52,6 @@
         height: 350px;
       }
 
-
       .grid-item:nth-child(4) {
         grid-column: 1 / 4;
         height: 350px;
@@ -80,7 +78,8 @@
         display: none;
       }
 
-      .barcode-top, .barcode-bottom {
+      .barcode-top,
+      .barcode-bottom {
         grid-column: 1 / 4;
         height: 82px;
       }
@@ -102,7 +101,7 @@
         align-items: center;
         align-content: center;
         padding: 20px;
-        grid-area:auto;
+        grid-area: auto;
         order: 4;
         grid-column: 1 / 4;
       }
@@ -157,7 +156,7 @@
         .grid-item:nth-child(7) {
           grid-area: 16 / 1 / 21 / 7;
           display: block;
-        } 
+        }
 
         .grid-item:nth-child(8) {
           grid-area: 17 / 7 / 22 / 13;
@@ -172,7 +171,8 @@
           grid-area: 21 / 1 / 22 / 7;
         }
 
-        .barcode-top, .barcode-bottom {
+        .barcode-top,
+        .barcode-bottom {
           height: 100%;
         }
 
@@ -181,30 +181,29 @@
           grid-area: 12 / 7 / 17 / 13;
         }
       }
-
     </style>
 
-      <div class="photos-grid">
-        <template is="dom-repeat" items="[[gallery]]" as="photo">
-          <plastic-image
-            class="grid-item"
-            srcset="[[photo.url]]"
-            sizing="cover"
-            lazy-load preload fade
-            position="[[photo.pos]]"
-          ></plastic-image>
-        </template>
-        <barcode-header class="barcode-top" invert no-border>Building Momentum</barcode-header>
-        <barcode-header class="barcode-bottom" right invert no-border></barcode-header>
-        <div class="gallery-info">
-          <p>{$ galleryBlock.description $}</p>
-        </div>
+    <div class="photos-grid">
+      <template is="dom-repeat" items="[[gallery]]" as="photo">
+        <plastic-image
+          class="grid-item"
+          srcset="[[photo.url]]"
+          sizing="cover"
+          lazy-load
+          preload
+          fade
+          position="[[photo.pos]]"
+        ></plastic-image>
+      </template>
+      <barcode-header class="barcode-top" invert no-border>Building Momentum</barcode-header>
+      <barcode-header class="barcode-bottom" right invert no-border></barcode-header>
+      <div class="gallery-info">
+        <p>{$ galleryBlock.description $}</p>
       </div>
-
+    </div>
   </template>
 
   <script>
-
     class GalleryBlock extends ReduxMixin(Polymer.Element) {
       static get is() {
         return 'building-momentum-gallery';

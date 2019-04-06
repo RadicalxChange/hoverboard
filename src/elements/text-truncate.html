@@ -1,5 +1,5 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="/bower_components/polymer/lib/utils/flattened-nodes-observer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="/bower_components/polymer/lib/utils/flattened-nodes-observer.html" />
 
 <script src="../../bower_components/clamp-js/clamp.min.js"></script>
 
@@ -9,7 +9,6 @@
   </template>
 
   <script>
-
     class TextTruncate extends Polymer.Element {
       static get is() {
         return 'text-truncate';
@@ -28,7 +27,7 @@
         super.ready();
         this._observer = new Polymer.FlattenedNodesObserver(this.$.text, (info) => {
           const target = info.addedNodes.filter(function (node) {
-            return (node.nodeType === Node.ELEMENT_NODE);
+            return node.nodeType === Node.ELEMENT_NODE;
           })[0];
           // eslint-disable-next-line no-undef
           $clamp(target, { clamp: this._getClampValue() });

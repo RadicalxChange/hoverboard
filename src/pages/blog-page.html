@@ -1,14 +1,13 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/iron-lazy-pages/iron-lazy-pages.html" />
 
-<link rel="import" href="../mixins/scroll-functions.html">
+<link rel="import" href="../mixins/scroll-functions.html" />
 
 <dom-module id="blog-page">
   <template>
     <style>
-
       :host {
         display: block;
         height: 100%;
@@ -17,7 +16,6 @@
       iron-lazy-pages {
         min-height: 100%;
       }
-
     </style>
     <app-route
       route="[[_route]]"
@@ -38,7 +36,6 @@
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class BlogPage extends ScrollFunctions(Polymer.Element) {
       static get is() {
@@ -53,9 +50,7 @@
       }
 
       static get observers() {
-        return [
-          '_routeChanged(active, route)',
-        ];
+        return ['_routeChanged(active, route)'];
       }
 
       _routeChanged(active, route) {

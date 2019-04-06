@@ -1,7 +1,7 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/marked-element/marked-element.html">
-<link rel="import" href="../elements/shared-styles.html">
-<link rel="import" href="../mixins/scroll-functions.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../../bower_components/marked-element/marked-element.html" />
+<link rel="import" href="../elements/shared-styles.html" />
+<link rel="import" href="../mixins/scroll-functions.html" />
 
 <dom-module id="md-content">
   <template>
@@ -37,11 +37,11 @@
         font-size: 16px;
       }
 
-      [slot="markdown-html"] h2 {
+      [slot='markdown-html'] h2 {
         line-height: 2;
       }
 
-      [slot="markdown-html"] h3::after {
+      [slot='markdown-html'] h3::after {
         margin-left: 8px;
         content: '';
         display: inline-block;
@@ -67,7 +67,7 @@
           margin-right: 0;
         }
 
-        [slot="markdown-html"] h2 {
+        [slot='markdown-html'] h2 {
           font-size: 40px;
           width: 40%;
           margin-bottom: 0;
@@ -77,22 +77,22 @@
           line-height: 1;
         }
 
-        [slot="markdown-html"] h3 {
+        [slot='markdown-html'] h3 {
           line-height: 1.5;
         }
 
-        [slot="markdown-html"] h3,
-        [slot="markdown-html"] h4,
-        [slot="markdown-html"] p,
-        [slot="markdown-html"] ul {
+        [slot='markdown-html'] h3,
+        [slot='markdown-html'] h4,
+        [slot='markdown-html'] p,
+        [slot='markdown-html'] ul {
           margin-left: 40%;
         }
 
-        [slot="markdown-html"] h3::after {
+        [slot='markdown-html'] h3::after {
           display: none;
         }
 
-        [slot="markdown-html"] h3:hover::after {
+        [slot='markdown-html'] h3:hover::after {
           display: inline-block;
         }
       }
@@ -119,7 +119,6 @@
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class MdContent extends ScrollFunctions(Polymer.Element) {
       static get is() {
@@ -167,7 +166,10 @@
         let lastHeadElement;
 
         for (let i = 0; i < heads.length; i++) {
-          if (heads[i].previousElementSibling && heads[i].previousElementSibling.nodeName === 'H2') {
+          if (
+            heads[i].previousElementSibling &&
+            heads[i].previousElementSibling.nodeName === 'H2'
+          ) {
             const head2Element = heads[i].previousElementSibling;
             const colHeader = document.createElement('div');
             colHeader.className = `col ${head2Element.id}`;
@@ -209,8 +211,8 @@
       _changeUrl(e) {
         const targetElement = e.path && e.path[0];
         const offset = this.offsetTop(targetElement);
-        const canBeScrolled = Math.abs(document.documentElement.scrollTop +
-          this.toolbarOffset - offset) >= 50;
+        const canBeScrolled =
+          Math.abs(document.documentElement.scrollTop + this.toolbarOffset - offset) >= 50;
         if (canBeScrolled) {
           this.scrollToY(offset - this.toolbarOffset, 100);
         }

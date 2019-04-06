@@ -1,25 +1,24 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html" />
 
-<link rel="import" href="../mixins/utils-functions.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="../mixins/speakers-hoc.html">
-<link rel="import" href="../elements/text-truncate.html">
-<link rel="import" href="../elements/shared-styles.html">
-<link rel="import" href="../elements/content-loader.html">
-<link rel="import" href="../elements/previous-speakers-block.html">
+<link rel="import" href="../mixins/utils-functions.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="../mixins/speakers-hoc.html" />
+<link rel="import" href="../elements/text-truncate.html" />
+<link rel="import" href="../elements/shared-styles.html" />
+<link rel="import" href="../elements/content-loader.html" />
+<link rel="import" href="../elements/previous-speakers-block.html" />
 
 <dom-module id="speakers-page">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
-
       :host {
         display: block;
         height: 100%;
@@ -119,7 +118,7 @@
           padding: 6px;
           width: 32px;
           height: 32px;
-        };
+        }
         color: var(--secondary-text-color);
       }
 
@@ -146,7 +145,6 @@
           grid-template-columns: repeat(4, 1fr);
         }
       }
-
     </style>
 
     <polymer-helmet
@@ -155,11 +153,7 @@
       active="[[_setHelmetData(active, isDialogOpened)]]"
     ></polymer-helmet>
 
-    <app-route
-      route="[[route]]"
-      pattern="/:speakerId"
-      data="{{routeData}}"
-    ></app-route>
+    <app-route route="[[route]]" pattern="/:speakerId" data="{{routeData}}"></app-route>
 
     <hero-block
       background-image="{$ heroSettings.speakers.background.image $}"
@@ -167,8 +161,16 @@
       font-color="{$ heroSettings.speakers.fontColor $}"
       active="[[active]]"
     >
-      <div class="hero-title highlight-font">{$ heroSettings.speakers.title $}</div>
+      <div class="hero-title highlight-font">
+        {$ heroSettings.speakers.title $}
+      </div>
       <p class="hero-description">{$ heroSettings.speakers.description $}</p>
+      <p>
+        You can watch some of the highlights
+        <a href="https://www.youtube.com/channel/UCxRk8v1Wcxa1TIKTvqrtSOw/videos" target="_blank"
+          >here.</a
+        >
+      </p>
     </hero-block>
 
     <paper-progress indeterminate hidden$="[[contentLoaderVisibility]]"></paper-progress>
@@ -187,18 +189,22 @@
 
     <div class="container">
       <template is="dom-repeat" items="[[speakers]]" as="speaker">
-        <a class="speaker card"
-           href$="/speakers/[[speaker.id]]/"
-           ga-on="click"
-           ga-event-category="speaker"
-           ga-event-action="open details"
-           ga-event-label$="[[speaker.name]]">
+        <a
+          class="speaker card"
+          href$="/speakers/[[speaker.id]]/"
+          ga-on="click"
+          ga-event-category="speaker"
+          ga-event-action="open details"
+          ga-event-label$="[[speaker.name]]"
+        >
           <div relative>
             <plastic-image
               class="photo"
               srcset="[[speaker.photoUrl]]"
               sizing="cover"
-              lazy-load preload fade
+              lazy-load
+              preload
+              fade
             ></plastic-image>
             <div class="badges" layout horizontal>
               <template is="dom-repeat" items="[[speaker.badges]]" as="badge">
@@ -208,7 +214,9 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   title$="[[badge.description]]"
-                  layout horizontal center-center
+                  layout
+                  horizontal
+                  center-center
                 >
                   <iron-icon class="badge-icon" icon="hoverboard:[[badge.name]]"></iron-icon>
                 </a>
@@ -220,7 +228,9 @@
             class="company-logo"
             srcset="[[speaker.companyLogoUrl]]"
             sizing="contain"
-            lazy-load preload fade
+            lazy-load
+            preload
+            fade
           ></plastic-image>
 
           <div class="description">
@@ -242,19 +252,16 @@
               </a>
             </template>
           </div>
-
         </a>
       </template>
     </div>
 
-<!--     <previous-speakers-block></previous-speakers-block>
+    <!--     <previous-speakers-block></previous-speakers-block>
  -->
     <footer-block></footer-block>
-
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class SpeakersPage extends UtilsFunctions(ReduxMixin(SpeakersHoC(Polymer.Element))) {
       static get is() {
@@ -316,7 +323,5 @@
     }
 
     window.customElements.define(SpeakersPage.is, SpeakersPage);
-
   </script>
 </dom-module>
-

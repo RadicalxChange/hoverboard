@@ -1,18 +1,17 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
 
-<link rel="import" href="../mixins/utils-functions.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="./shared-styles.html">
+<link rel="import" href="../mixins/utils-functions.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="./shared-styles.html" />
 
 <dom-module id="previous-speakers-block">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
-
       :host {
         margin: 32px auto;
         display: block;
@@ -56,7 +55,6 @@
           height: 96px;
         }
       }
-
     </style>
 
     <div class="container">
@@ -76,7 +74,9 @@
               class="photo"
               srcset="[[speaker.photoUrl]]"
               sizing="cover"
-              lazy-load preload fade
+              lazy-load
+              preload
+              fade
             ></plastic-image>
           </a>
         </template>
@@ -88,13 +88,10 @@
           <iron-icon icon="hoverboard:arrow-right-circle"></iron-icon>
         </paper-button>
       </a>
-
     </div>
-
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class PreviousSpeakersBlock extends UtilsFunctions(ReduxMixin(Polymer.Element)) {
       static get is() {
@@ -131,7 +128,10 @@
       }
 
       _generateSpeakers(speakersRaw) {
-        this.set('speakers', this.randomOrder(speakersRaw).slice(0, this.viewport.isPhone ? 8 : 14));
+        this.set(
+          'speakers',
+          this.randomOrder(speakersRaw).slice(0, this.viewport.isPhone ? 8 : 14)
+        );
       }
     }
 

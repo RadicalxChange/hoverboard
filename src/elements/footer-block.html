@@ -1,17 +1,15 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="footer-social.html">
-<link rel="import" href="footer-rel.html">
-<link rel="import" href="footer-nav.html">
-<link rel="import" href="hoverboard-icons.html">
-<link rel="import" href="../mixins/scroll-functions.html">
-
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html" />
+<link rel="import" href="footer-social.html" />
+<link rel="import" href="footer-rel.html" />
+<link rel="import" href="footer-nav.html" />
+<link rel="import" href="hoverboard-icons.html" />
+<link rel="import" href="../mixins/scroll-functions.html" />
 
 <dom-module id="footer-block">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
     <style>
-
       :host {
         margin-top: 40px;
         display: block;
@@ -32,7 +30,7 @@
         background: var(--primary-background-color);
         color: inherit;
         pointer-events: all;
-        box-shadow: 0 0 8px 0 rgba(0,0,0,0.12), 0 8px 8px 0 rgba(0,0,0,0.24);
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12), 0 8px 8px 0 rgba(0, 0, 0, 0.24);
       }
 
       .fab {
@@ -48,24 +46,24 @@
           padding: 15px 36px;
         }
       }
-
     </style>
 
     <div class="container">
       <div class="fab">
         <paper-fab class="back-to-top" icon="hoverboard:up" on-click="backToTop"></paper-fab>
       </div>
-       <footer-social layout flex flex-auto horizontal wrap></footer-social>
-       <footer-rel></footer-rel>
+      <footer-social layout flex flex-auto horizontal wrap></footer-social>
+      <footer-rel></footer-rel>
       <footer-nav layout horizontal wrap justified center></footer-nav>
     </div>
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class FooterBlock extends ScrollFunctions(Polymer.Element) {
-      static get is() {return 'footer-block';}
+      static get is() {
+        return 'footer-block';
+      }
 
       backToTop(e) {
         this.scrollToY(0, 600, 'easeInOutSine');
@@ -73,6 +71,5 @@
     }
 
     window.customElements.define(FooterBlock.is, FooterBlock);
-
   </script>
 </dom-module>

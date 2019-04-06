@@ -1,18 +1,17 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/good-map/good-map.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../../bower_components/good-map/good-map.html" />
 
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="./hoverboard-icons.html">
-<link rel="import" href="./shared-styles.html">
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="./hoverboard-icons.html" />
+<link rel="import" href="./shared-styles.html" />
 
 <dom-module id="map-block">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
-
       :host {
         margin: 32px auto;
         display: block;
@@ -35,7 +34,7 @@
           width: 48px;
           height: 48px;
           color: var(--text-primary-color);
-        };
+        }
       }
 
       @media (min-width: 640px) {
@@ -64,7 +63,6 @@
           font-size: 12px;
         }
       }
-
     </style>
 
     <template is="dom-if" if="[[viewport.isTabletPlus]]">
@@ -98,11 +96,9 @@
         </div>
       </div>
     </div>
-
   </template>
 
   <script>
-
     class MapBlock extends ReduxMixin(Polymer.Element) {
       static get is() {
         return 'map-block';
@@ -116,63 +112,85 @@
           },
           options: {
             type: Object,
-            value: () => (
-              {
-                disableDefaultUI: true,
-                disableDoubleClickZoom: true,
-                scrollwheel: false,
-                draggable: false,
-                styles: [{
-                  stylers: [{
-                    lightness: 40,
-                  }, {
-                    visibility: 'on',
-                  }, {
-                    gamma: 0.9,
-                  }, {
-                    weight: 0.4,
-                  }],
-                }, {
+            value: () => ({
+              disableDefaultUI: true,
+              disableDoubleClickZoom: true,
+              scrollwheel: false,
+              draggable: false,
+              styles: [
+                {
+                  stylers: [
+                    {
+                      lightness: 40,
+                    },
+                    {
+                      visibility: 'on',
+                    },
+                    {
+                      gamma: 0.9,
+                    },
+                    {
+                      weight: 0.4,
+                    },
+                  ],
+                },
+                {
                   elementType: 'labels',
-                  stylers: [{
-                    visibility: 'on',
-                  }],
-                }, {
+                  stylers: [
+                    {
+                      visibility: 'on',
+                    },
+                  ],
+                },
+                {
                   featureType: 'water',
-                  stylers: [{
-                    color: '#5dc7ff',
-                  }],
-                }, {
+                  stylers: [
+                    {
+                      color: '#5dc7ff',
+                    },
+                  ],
+                },
+                {
                   featureType: 'road',
-                  stylers: [{
-                    visibility: 'off',
-                  }],
-                }],
-              }
-            ),
+                  stylers: [
+                    {
+                      visibility: 'off',
+                    },
+                  ],
+                },
+              ],
+            }),
           },
         };
       }
 
       connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('dom-change', () => {
-          this.shadowRoot.querySelector('#map').addEventListener('google-map-ready', (e) => {
-            if (!this.viewport.isTabletPlus) return;
-            new google.maps.Marker({
-              position: {
-                lat: parseFloat('{$ location.pointer.latitude $}'),
-                lng: parseFloat('{$ location.pointer.longitude $}'),
+        this.addEventListener(
+          'dom-change',
+          () => {
+            this.shadowRoot.querySelector('#map').addEventListener(
+              'google-map-ready',
+              (e) => {
+                if (!this.viewport.isTabletPlus) return;
+                new google.maps.Marker({
+                  position: {
+                    lat: parseFloat('{$ location.pointer.latitude $}'),
+                    lng: parseFloat('{$ location.pointer.longitude $}'),
+                  },
+                  icon: {
+                    url: 'images/map-marker.svg',
+                    anchor: new google.maps.Point(25, 50),
+                    scaledSize: new google.maps.Size(50, 50),
+                  },
+                  map: e.detail,
+                });
               },
-              icon: {
-                url: 'images/map-marker.svg',
-                anchor: new google.maps.Point(25, 50),
-                scaledSize: new google.maps.Size(50, 50),
-              },
-              map: e.detail,
-            });
-          }, { once: true });
-        }, { once: true });
+              { once: true }
+            );
+          },
+          { once: true }
+        );
       }
     }
 

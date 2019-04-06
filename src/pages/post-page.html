@@ -1,14 +1,14 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/marked-element/marked-element.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/marked-element/marked-element.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
 
-<link rel="import" href="../mixins/utils-functions.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="../elements/shared-styles.html">
-<link rel="import" href="../elements/posts-list.html">
+<link rel="import" href="../mixins/utils-functions.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="../elements/shared-styles.html" />
+<link rel="import" href="../elements/posts-list.html" />
 
 <dom-module id="post-page">
   <template>
@@ -37,13 +37,13 @@
         background-color: var(--primary-background-color);
       }
 
-      [slot="markdown-html"] {
+      [slot='markdown-html'] {
         font-size: 16px;
         line-height: 1.6;
         color: var(--primary-text-color);
       }
 
-      [slot="markdown-html"] a {
+      [slot='markdown-html'] a {
         position: relative;
         box-shadow: inset 0 -5px 0 #eee5ff;
       }
@@ -58,11 +58,9 @@
         background: #a07ce2;
       } */
 
-      [slot="markdown-html"] a:hover {
-
+      [slot='markdown-html'] a:hover {
         box-shadow: inset 0 -5px 0 #c8b7e8;
       }
-
 
       blockquote {
         font-family: 'Amiri', serif;
@@ -93,72 +91,71 @@
       code {
         color: #ff3860;
         background: #eee;
-        padding: .25em .5em;
+        padding: 0.25em 0.5em;
       }
 
-      [slot="markdown-html"] li p {
+      [slot='markdown-html'] li p {
         display: inline;
       }
-      [slot="markdown-html"] li  {
+      [slot='markdown-html'] li {
         margin-bottom: 1em;
       }
 
-      [slot="markdown-html"] ol {
+      [slot='markdown-html'] ol {
         position: relative;
         list-style: none;
         counter-reset: counter;
       }
-      [slot="markdown-html"] ol li {
+      [slot='markdown-html'] ol li {
         counter-increment: counter;
       }
-      [slot="markdown-html"] ol li:before {
+      [slot='markdown-html'] ol li:before {
         position: absolute;
         left: 1em;
-        content: counter(counter) ". ";
+        content: counter(counter) '. ';
         font-weight: bold;
       }
 
-
-      [slot="markdown-html"] h1 {
+      [slot='markdown-html'] h1 {
         margin: 1.5em 0 1em;
         font-size: 2.2em;
-        padding: 0
+        padding: 0;
       }
 
-      [slot="markdown-html"] h2 {
+      [slot='markdown-html'] h2 {
         font-size: 2em;
-        margin: 1em 0 .7em;
+        margin: 1em 0 0.7em;
       }
 
-      [slot="markdown-html"] h3 {
+      [slot='markdown-html'] h3 {
         font-size: 1.8em;
-        margin: .8em 0 .5em;
+        margin: 0.8em 0 0.5em;
       }
 
-      [slot="markdown-html"] h4 {
+      [slot='markdown-html'] h4 {
         font-size: 1.5em;
-        margin: .6em 0 .4em;
+        margin: 0.6em 0 0.4em;
       }
 
-      [slot="markdown-html"] h4 {
+      [slot='markdown-html'] h4 {
         font-size: 1.3em;
-        margin: .5em 0 .3em;
+        margin: 0.5em 0 0.3em;
       }
-      [slot="markdown-html"] h5 {
+      [slot='markdown-html'] h5 {
         font-size: 1.1em;
-        margin: .5em 0 .3em;
+        margin: 0.5em 0 0.3em;
       }
-      [slot="markdown-html"] h6 {
+      [slot='markdown-html'] h6 {
         font-size: 1em;
-        margin: .4em 0 .2em;
+        margin: 0.4em 0 0.2em;
       }
 
-      [slot="markdown-html"] p {
+      [slot='markdown-html'] p {
         margin-top: 0;
         margin-bottom: 1em;
       }
 
-      [slot="markdown-html"] plastic-image {
+      [slot='markdown-html'] plastic-image {
         /* margin: 32px 0 8px -16px; */
         --iron-image-width: calc(100% + 32px);
         /* width: calc(100% + 32px); */
@@ -174,7 +171,8 @@
       tr:nth-child(odd) > td {
         background: #f9f9f9;
       }
-      tr > td, table > tfoot > tr > td {
+      tr > td,
+      table > tfoot > tr > td {
         padding: 8px;
         vertical-align: top;
         border-top: 1px solid #ddd;
@@ -182,7 +180,7 @@
       th {
         text-align: center;
       }
-      
+
       strong {
         font-weight: 500;
       }
@@ -214,23 +212,19 @@
         text-align: center;
       }
       @media (min-width: 640px) {
-        [slot="markdown-html"] plastic-image {
+        [slot='markdown-html'] plastic-image {
           min-height: 400px;
         }
-        
-        [slot="markdown-html"] {
-        font-size: 18px;
 
-      }
+        [slot='markdown-html'] {
+          font-size: 18px;
+        }
 
         .suggested-posts {
           margin-top: 48px;
           padding-bottom: 36px;
         }
-
-
       }
-
     </style>
 
     <polymer-helmet
@@ -242,11 +236,7 @@
       data1="[[published]]"
     ></polymer-helmet>
 
-    <app-route
-      route="[[route]]"
-      pattern="/:id"
-      data="{{postData}}"
-    ></app-route>
+    <app-route route="[[route]]" pattern="/:id" data="{{postData}}"></app-route>
 
     <hero-block
       background-image="[[post.image]]"
@@ -258,9 +248,9 @@
     </hero-block>
 
     <div class="container-narrow">
-        <div class="author-date author">
-            <h4>[[post.author]]</h4>
-          </div>
+      <div class="author-date author">
+        <h4>[[post.author]]</h4>
+      </div>
       <marked-element class="post" markdown="[[post.content]]">
         <div slot="markdown-html"></div>
       </marked-element>
@@ -273,11 +263,9 @@
         <posts-list posts="[[suggestedPosts]]"></posts-list>
       </div>
     </div>
-
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class PostPage extends UtilsFunctions(ReduxMixin(Polymer.Element)) {
       static get is() {
@@ -313,9 +301,7 @@
       }
 
       static get observers() {
-        return [
-          '_postDataObserver(postData.id, postsList)',
-        ];
+        return ['_postDataObserver(postData.id, postsList)'];
       }
 
       connectedCallback() {
@@ -332,9 +318,9 @@
 
         const post = this.postsMap[this.postData.id];
         this.set('post', post);
-        this.set('suggestedPosts', this.postsList
-          .filter((post) => post.id !== this.postData.id)
-          .slice(0, 3)
+        this.set(
+          'suggestedPosts',
+          this.postsList.filter((post) => post.id !== this.postData.id).slice(0, 3)
         );
       }
     }

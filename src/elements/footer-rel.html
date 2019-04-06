@@ -1,11 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="subscribe-form-footer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="subscribe-form-footer.html" />
 
 <dom-module id="footer-rel">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment"></style>
     <style>
-
       :host {
         border-top: 1px solid var(--border-light-color);
         border-bottom: 1px solid var(--border-light-color);
@@ -61,14 +60,27 @@
           margin-top: 0;
         }
       }
-
     </style>
     {% for footerRel in footerRelBlock %}
     <div class="col" layout vertical wrap flex-auto>
       <div class="col-heading">{$ footerRel.title $}</div>
       <ul class="nav">
         {% for link in footerRel.links %}
-        <li><a href="{$ link.url $}"  {% if link.newTab %} target="_blank" rel="noopener noreferrer" {% endif %}>{$ link.name $}</a></li>
+        <li>
+          <a
+            href="{$ link.url $}"
+            {%
+            if
+            link.newTab
+            %}
+            target="_blank"
+            rel="noopener noreferrer"
+            {%
+            endif
+            %}
+            >{$ link.name $}</a
+          >
+        </li>
         {% endfor %}
       </ul>
     </div>
@@ -79,17 +91,15 @@
       <span>{$ subscribeNote $}</span>
       <subscribe-form-footer></subscribe-form-footer>
     </div>
-
   </template>
 
   <script>
-
     class FooterRel extends Polymer.Element {
-      static get is() {return 'footer-rel';}
+      static get is() {
+        return 'footer-rel';
+      }
     }
 
     window.customElements.define(FooterRel.is, FooterRel);
-
   </script>
 </dom-module>
-

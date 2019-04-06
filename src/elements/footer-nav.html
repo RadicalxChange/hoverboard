@@ -1,13 +1,11 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
 
 <dom-module id="footer-nav">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment"></style>
 
     <style>
-
       :host {
         margin: 0 20px;
       }
@@ -51,7 +49,6 @@
       }
 
       @media (min-width: 505px) {
-
         .copyright {
           margin: 0;
           padding: 15px 0 0 0;
@@ -66,7 +63,6 @@
     </style>
 
     <div class="nav-inline" layout flex>
-
       <a href="{$ organizer.url $}" target="_blank" rel="noopener noreferrer">
         <plastic-image
           class="footer-logo"
@@ -79,17 +75,18 @@
       </a>
 
       <div class="copyright">
-        &copy; [[_getYear()]] RadicalxChange Foundation Ltd. <br><br>Based on <a href="https://github.com/gdg-x/hoverboard" target="_blank" rel="noopener noreferrer">Project Hoverboard</a> &middot; 
-<!--         <a class="cod" href="/cod">{$ codeOfConduct $}</a>
+        &copy; [[_getYear()]] RadicalxChange Foundation Ltd. <br /><br />Based on
+        <a href="https://github.com/gdg-x/hoverboard" target="_blank" rel="noopener noreferrer"
+          >Project Hoverboard</a
+        >
+        &middot;
+        <!--         <a class="cod" href="/cod">{$ codeOfConduct $}</a>
  -->
       </div>
     </div>
-
-
   </template>
 
   <script>
-
     class FooterNav extends Polymer.Element {
       static get is() {
         return 'footer-nav';
@@ -101,7 +98,5 @@
     }
 
     window.customElements.define(FooterNav.is, FooterNav);
-
   </script>
 </dom-module>
-

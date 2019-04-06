@@ -1,11 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/google-youtube/google-youtube.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="shared-styles.html">
-
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../../bower_components/google-youtube/google-youtube.html" />
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="shared-styles.html" />
 
 <dom-module id="video-dialog">
   <template>
@@ -42,7 +41,6 @@
       .video {
         padding: 0;
       }
-
     </style>
 
     <div class="toolbar">
@@ -62,10 +60,10 @@
         height="100%"
         autohide="1"
         chromeless="[[disableControls]]"
-        fit>
+        fit
+      >
       </google-youtube>
     </div>
-
   </template>
 
   <script>
@@ -97,8 +95,7 @@
             this.backdropElement.open();
           }
           this.$.video.play();
-        }
-        else {
+        } else {
           this.$.video.seekTo(0);
           this.$.video.pause();
           this.backdropElement.close();

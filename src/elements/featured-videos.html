@@ -1,13 +1,13 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../../bower_components/polymer/lib/mixins/gesture-event-listeners.html" />
 
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="shared-animations.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="../../bower_components/paper-button/paper-button.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="shared-animations.html" />
+<link rel="import" href="shared-styles.html" />
 
 <dom-module id="featured-videos">
   <template>
@@ -46,7 +46,7 @@
       }
 
       .video-item:not(:last-of-type) {
-          padding-right: 18px;
+        padding-right: 18px;
       }
 
       .video-item:hover .video-play-icon {
@@ -88,7 +88,6 @@
       }
 
       @media (min-width: 640px) {
-
         :host {
           --video-item-height: 256px;
         }
@@ -122,7 +121,6 @@
           right: 0;
         }
       }
-
     </style>
     <div class="container">
       <div class="header" layout horizontal justified center wrap>
@@ -142,20 +140,25 @@
         ></paper-icon-button>
         <div id="videoList" class="video-list" layout flex horizontal>
           <div id="videos" class="videos" layout horizontal>
-             <template is="dom-repeat" items="[[videos]]" as="block" index-as="index">
-              <div class="video-item"
-                  on-tap="playVideo"
-                  ga-on="click"
-                  ga-event-category="video"
-                  ga-event-action="watch"
-                  ga-event-label$="[[block.title]]">
+            <template is="dom-repeat" items="[[videos]]" as="block" index-as="index">
+              <div
+                class="video-item"
+                on-tap="playVideo"
+                ga-on="click"
+                ga-event-category="video"
+                ga-event-action="watch"
+                ga-event-label$="[[block.title]]"
+              >
                 <div class="thumbnail" relative layout horizontal center-center>
                   <plastic-image
                     id="image[[index]]"
                     class="thumbnail-image"
                     srcset="[[block.thumbnail]]"
                     sizing="cover"
-                    lazy-load preload fade fit
+                    lazy-load
+                    preload
+                    fade
+                    fit
                   ></plastic-image>
                   <div class="image-overlay" fit></div>
                   <paper-icon-button
@@ -176,14 +179,12 @@
           ga-event-category="video-list-arrow"
           ga-event-action="click"
           ga-event-label="right"
-          hidden$="[[_rightArrowHidden]]">
-        ></paper-icon-button>
+          hidden$="[[_rightArrowHidden]]"
+        >
+          ></paper-icon-button
+        >
       </div>
-      <a
-        href="{$ featuredVideos.callToAction.link $}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="{$ featuredVideos.callToAction.link $}" target="_blank" rel="noopener noreferrer">
         <paper-button class="cta-button animated icon-right">
           <span>{$ featuredVideos.callToAction.label $}</span>
           <iron-icon icon="hoverboard:arrow-right-circle"></iron-icon>
@@ -233,15 +234,12 @@
       }
 
       shiftContentLeft() {
-        const {
-          cardWidth,
-          currentPosition,
-        } = this.getVideosDetails();
+        const { cardWidth, currentPosition } = this.getVideosDetails();
 
         let newX = currentPosition + cardWidth;
 
         if (currentPosition < 0) {
-          const adjustToLeft = newX > 0 || (Math.abs(0 - Math.abs(newX)) < cardWidth);
+          const adjustToLeft = newX > 0 || Math.abs(0 - Math.abs(newX)) < cardWidth;
 
           if (adjustToLeft) {
             newX = 0;
@@ -251,25 +249,20 @@
 
           if (newX == 0) {
             this._leftArrowHidden = true;
-          }
-          else {
+          } else {
             this._rightArrowHidden = false;
           }
         }
       }
 
       shiftContentRight() {
-        const {
-          cardWidth,
-          maxRightPosition,
-          currentPosition,
-        } = this.getVideosDetails();
+        const { cardWidth, maxRightPosition, currentPosition } = this.getVideosDetails();
 
         let newX = currentPosition - cardWidth;
 
         if (currentPosition >= maxRightPosition) {
-          const adjustToRight = newX < maxRightPosition ||
-              (Math.abs(maxRightPosition) - Math.abs(newX) < cardWidth);
+          const adjustToRight =
+            newX < maxRightPosition || Math.abs(maxRightPosition) - Math.abs(newX) < cardWidth;
 
           if (adjustToRight) {
             newX = maxRightPosition;
@@ -279,8 +272,7 @@
 
           if (newX == maxRightPosition) {
             this._rightArrowHidden = true;
-          }
-          else {
+          } else {
             this._leftArrowHidden = false;
           }
         }
@@ -290,13 +282,18 @@
         const videos = this.shadowRoot.querySelectorAll('.video-item');
         const cardRect = videos[videos.length - 1].getBoundingClientRect();
         const cardWidth = cardRect.width;
-        const videosContainerWidth = parseInt(getComputedStyle(this.$.videoList, null)
-          .getPropertyValue('width'));
-        const videosWidth = parseInt(getComputedStyle(this.$.videos, null)
-          .getPropertyValue('width'));
+        const videosContainerWidth = parseInt(
+          getComputedStyle(this.$.videoList, null).getPropertyValue('width')
+        );
+        const videosWidth = parseInt(
+          getComputedStyle(this.$.videos, null).getPropertyValue('width')
+        );
         const maxRightPosition = -(videosWidth - videosContainerWidth) - 16;
-        const currentPosition = parseInt(getComputedStyle(this.$.videos, null)
-          .getPropertyValue('transform').split(',')[4]);
+        const currentPosition = parseInt(
+          getComputedStyle(this.$.videos, null)
+            .getPropertyValue('transform')
+            .split(',')[4]
+        );
 
         return {
           cardWidth,
@@ -317,7 +314,7 @@
 
       playVideo(e) {
         const presenters = e.model.__data.block.speakers
-          ? (` by ${e.model.__data.block.speakers}`)
+          ? ` by ${e.model.__data.block.speakers}`
           : '';
         const title = e.model.__data.block.title + presenters;
         const youtubeId = e.model.__data.block.youtubeId;
@@ -332,6 +329,5 @@
     }
 
     window.customElements.define(FeaturedVideos.is, FeaturedVideos);
-
   </script>
 </dom-module>

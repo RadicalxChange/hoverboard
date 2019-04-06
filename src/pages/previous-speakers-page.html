@@ -1,20 +1,19 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/plastic-image/plastic-image.html">
-<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html" />
+<link rel="import" href="../../bower_components/plastic-image/plastic-image.html" />
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html" />
 
-<link rel="import" href="../mixins/utils-functions.html">
-<link rel="import" href="../mixins/redux-mixin.html">
-<link rel="import" href="../elements/shared-styles.html">
-<link rel="import" href="../elements/content-loader.html">
+<link rel="import" href="../mixins/utils-functions.html" />
+<link rel="import" href="../mixins/redux-mixin.html" />
+<link rel="import" href="../elements/shared-styles.html" />
+<link rel="import" href="../elements/content-loader.html" />
 
 <dom-module id="previous-speakers-page">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
-
       :host {
         display: block;
         height: 100%;
@@ -116,7 +115,6 @@
           height: 128px;
         }
       }
-
     </style>
 
     <polymer-helmet
@@ -125,11 +123,7 @@
       active="[[_setHelmetData(active, isDialogOpened)]]"
     ></polymer-helmet>
 
-    <app-route
-      route="[[route]]"
-      pattern="/:speakerId"
-      data="{{routeData}}"
-    ></app-route>
+    <app-route route="[[route]]" pattern="/:speakerId" data="{{routeData}}"></app-route>
 
     <hero-block
       background-image="{$ heroSettings.previousSpeakers.background.image $}"
@@ -137,7 +131,9 @@
       font-color="{$ heroSettings.previousSpeakers.fontColor $}"
       active="[[active]]"
     >
-      <div class="hero-title highlight-font">{$ heroSettings.previousSpeakers.title $}</div>
+      <div class="hero-title highlight-font">
+        {$ heroSettings.previousSpeakers.title $}
+      </div>
       <p class="hero-details">{$ heroSettings.previousSpeakers.details $}</p>
     </hero-block>
 
@@ -161,23 +157,23 @@
           ga-event-category="previous speaker"
           ga-event-action="open details"
           ga-event-label$="[[speaker.name]]"
-          layout horizontal
+          layout
+          horizontal
         >
           <plastic-image
             class="photo"
             srcset="[[speaker.photoUrl]]"
             sizing="cover"
-            lazy-load preload fade
+            lazy-load
+            preload
+            fade
           ></plastic-image>
 
           <div class="details" layout vertical center-justified start>
             <h2 class="name">[[speaker.name]]</h2>
             <div class="origin">[[speaker.country]]</div>
 
-            <img
-              class="company-logo"
-              src$="[[speaker.companyLogo]]"
-            />
+            <img class="company-logo" src$="[[speaker.companyLogo]]" />
 
             <div class="sessions">
               <h5>{$ speakers.previousYears $}:</h5>
@@ -189,11 +185,9 @@
     </div>
 
     <footer-block></footer-block>
-
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class PreviousSpeakersPage extends UtilsFunctions(ReduxMixin(Polymer.Element)) {
       static get is() {
@@ -277,12 +271,15 @@
       }
 
       _getYears(sessions) {
-        return sessions && Object.keys(sessions).sort((a, b) => b - a).join(', ');
+        return (
+          sessions &&
+          Object.keys(sessions)
+            .sort((a, b) => b - a)
+            .join(', ')
+        );
       }
     }
 
     window.customElements.define(PreviousSpeakersPage.is, PreviousSpeakersPage);
-
   </script>
 </dom-module>
-

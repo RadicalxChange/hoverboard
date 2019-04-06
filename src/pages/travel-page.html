@@ -1,8 +1,8 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../elements/polymer-helmet.html">
-<link rel="import" href="../elements/hero-block.html">
-<link rel="import" href="../elements/footer-block.html">
-<link rel="import" href="../elements/md-content.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
+<link rel="import" href="../elements/polymer-helmet.html" />
+<link rel="import" href="../elements/hero-block.html" />
+<link rel="import" href="../elements/footer-block.html" />
+<link rel="import" href="../elements/md-content.html" />
 
 <dom-module id="travel-page">
   <template>
@@ -24,7 +24,9 @@
       font-color="{$ heroSettings.faq.fontColor $}"
       active="[[active]]"
     >
-      <div class="hero-title highlight-font">{$ heroSettings.travel.title $}</div>
+      <div class="hero-title highlight-font">
+        {$ heroSettings.travel.title $}
+      </div>
       <p class="hero-description">{$ heroSettings.travel.description $}</p>
     </hero-block>
 
@@ -34,7 +36,6 @@
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class TravelPage extends Polymer.Element {
       static get is() {

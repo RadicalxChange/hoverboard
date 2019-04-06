@@ -1,15 +1,14 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html" />
 
-<link rel="import" href="./session-element.html">
-<link rel="import" href="../mixins/scroll-functions.html">
-<link rel="import" href="./shared-styles.html">
+<link rel="import" href="./session-element.html" />
+<link rel="import" href="../mixins/scroll-functions.html" />
+<link rel="import" href="./shared-styles.html" />
 
 <dom-module id="schedule-day">
   <template>
     <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
-
       :host {
         display: block;
         --tracks-number: 3;
@@ -84,24 +83,27 @@
           border: 1px solid var(--border-light-color);
         }
       }
-
     </style>
 
     <div class="grid" style$="--tracks-number: [[day.tracks.length]];">
       <template is="dom-repeat" items="[[day.timeslots]]" as="timeslot" index-as="timeslotIndex">
-
-        <div id$="[[timeslot.startTime]]" class="start-time" style$="grid-area: [[_getTimePosition(timeslotIndex)]]">
+        <div
+          id$="[[timeslot.startTime]]"
+          class="start-time"
+          style$="grid-area: [[_getTimePosition(timeslotIndex)]]"
+        >
           <span class="hours">[[_splitText(timeslot.startTime, ':', 0)]]</span>
           <span class="minutes">[[_splitText(timeslot.startTime, ':', 1)]]</span>
         </div>
-
 
         <a
           class="add-session"
           href$="/schedule/[[day.date]]#[[timeslot.startTime]]"
           hidden$="[[!_showAddSession(timeslot, onlyFeatured)]]"
           style$="grid-area: [[timeslot.sessions.0.gridArea]]"
-          layout horizontal center-center
+          layout
+          horizontal
+          center-center
         >
           <iron-icon class="add-session-icon" icon="hoverboard:add-circle-outline"></iron-icon>
           <span>{$ mySchedule.browseSession $}</span>
@@ -114,10 +116,7 @@
           index-as="sessionIndex"
           filter="_isNotEmpty"
         >
-          <div
-            class="session"
-            style$="grid-area: [[session.gridArea]]"
-            layout vertical>
+          <div class="session" style$="grid-area: [[session.gridArea]]" layout vertical>
             <template is="dom-repeat" items="[[session.items]]" as="subSession">
               <session-element
                 class="subsession"
@@ -128,16 +127,12 @@
               ></session-element>
             </template>
           </div>
-
         </template>
-
       </template>
     </div>
-
   </template>
 
   <script>
-
     // eslint-disable-next-line no-undef
     class ScheduleDay extends ScrollFunctions(Polymer.Element) {
       static get is() {
@@ -167,11 +162,12 @@
               const targetElement = this.shadowRoot.querySelector(`[id="${selectedTime}"]`);
               const offset = this.offsetTop(targetElement);
               // eslint-disable-next-line no-undef
-              const toolbarHeight = HOVERBOARD.Elements.HeaderToolbar
-                .getBoundingClientRect().height - 1;
+              const toolbarHeight =
+                window.HOVERBOARD.Elements.HeaderToolbar.getBoundingClientRect().height - 1;
               // eslint-disable-next-line no-undef
               const stickyToolbarHeight = HOVERBOARD.Elements.StickyHeaderToolbar
-                .getBoundingClientRect().height;
+                .getBoundingClientRect()
+                .height;
               const additionalMargin = this.viewport.isTabletPlus ? 8 : 0;
               const scrollTargetY = offset - toolbarHeight - stickyToolbarHeight - additionalMargin;
               this.scrollToY(scrollTargetY, 1500, 'easeInOutSine');
@@ -189,9 +185,13 @@
       }
 
       _showAddSession(timeslot, onlyFeatured) {
-        return onlyFeatured && !timeslot.sessions.reduce((aggregator, sessionBlock) =>
-          aggregator + sessionBlock.items.length
-          , 0);
+        return (
+          onlyFeatured &&
+          !timeslot.sessions.reduce(
+            (aggregator, sessionBlock) => aggregator + sessionBlock.items.length,
+            0
+          )
+        );
       }
 
       _isNotEmpty(sessionBlock) {

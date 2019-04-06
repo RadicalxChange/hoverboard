@@ -6,8 +6,7 @@
 
 <dom-module id="hero-block">
   <template>
-    <style is="custom-style" include="shared-styles flex flex-alignment positioning"
-    ></style>
+    <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
 
     <style>
       :host {
@@ -73,13 +72,7 @@
       }
     </style>
 
-    <div
-      class="hero-block"
-      style$="color: [[fontColor]]"
-      layout
-      start
-      vertical center-justified
-    >
+    <div class="hero-block" style$="color: [[fontColor]]" layout start vertical center-justified>
       <plastic-image
         class="hero-image"
         srcset="[[backgroundImage]]"
@@ -90,11 +83,7 @@
         fade
         fit
       ></plastic-image>
-      <div
-        class="hero-overlay"
-        show$="[[_showOverlay(backgroundImage)]]"
-        fit
-      ></div>
+      <div class="hero-overlay" show$="[[_showOverlay(backgroundImage)]]" fit></div>
       <div class="container">
         <div class="hero-content">
           <slot></slot>
@@ -121,9 +110,7 @@
       }
 
       static get observers() {
-        return [
-          '_setState(active, backgroundImage, backgroundColor, fontColor, hideLogo)',
-        ];
+        return ['_setState(active, backgroundImage, backgroundColor, fontColor, hideLogo)'];
       }
 
       _showOverlay(backgroundImage) {
