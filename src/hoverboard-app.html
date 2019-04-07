@@ -160,7 +160,7 @@
         margin-left: 6px;
       }
 
-      .buy-ticket {
+      .donate {
         padding: 16px 24px;
       }
 
@@ -207,8 +207,6 @@
             srcset="/images/logo-monochrome.svg"
             alt="{$ title $}"
           ></plastic-image>
-          <h2 class="dates">{$ dates $}</h2>
-          <h3 class="location">{$ location.short $}</h3>
         </app-toolbar>
 
         <div class="drawer-content" layout vertical justified flex>
@@ -228,20 +226,14 @@
             >
             {% endfor %}
           </iron-selector>
-
           <a
-            class="buy-ticket"
-            href$="[[_getTicketUrl(tickets)]]"
+            class="donate"
+            href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HR4LF85TFSM5E"
             target="_blank"
             rel="noopener noreferrer"
-            ga-on="click"
-            ga-event-category="ticket button"
-            ga-event-action="buy_click"
-            layout
-            horizontal
-            center
+            layout horizontal center
           >
-            <span>{$ buyTicket $}</span>
+            <span>Donate</span>
             <iron-icon icon="hoverboard:open-in-new"></iron-icon>
           </a>
         </div>

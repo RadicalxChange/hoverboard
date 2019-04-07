@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html" />
 
 <link rel="import" href="../elements/about-block.html" />
-<link rel="import" href="../elements/call-for-papers-block.html" />
 <link rel="import" href="../elements/speakers-block.html" />
 <link rel="import" href="../elements/scholarship-block.html" />
 <link rel="import" href="../elements/believe-block.html" />
@@ -261,9 +260,8 @@
     </hero-block>
     <about-block></about-block>
     <building-momentum-gallery></building-momentum-gallery>
-    <call-for-papers-block></call-for-papers-block>
-    <subscribe-block></subscribe-block>
     <believe-block></believe-block>
+    <subscribe-block></subscribe-block>
     <latest-posts-block></latest-posts-block>
     <latest-press-block></latest-press-block>
     <partners-block></partners-block>
@@ -301,7 +299,7 @@
         const hovEl = HOVERBOARD.Elements;
         const toolbarHeight = hovEl.HeaderToolbar.getBoundingClientRect().height - 1;
         const aboutBlockPositionY = hovEl.About.getBoundingClientRect().top - toolbarHeight;
-        this.scrollToY(aboutBlockPositionY, 2000, 'easeInOutSine');
+        this.scrollToY(aboutBlockPositionY, 700, 'easeInOutSine');
       }
 
       _scrollNextBlock() {

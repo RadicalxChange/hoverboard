@@ -31,6 +31,11 @@
         min-height: 80%;
       }
 
+      .attention a {
+        font-weight: bold;
+        color: var(--default-primary-color);
+      }
+
       .speaker {
         padding: 32px 24px;
         background: var(--primary-background-color);
@@ -164,13 +169,20 @@
       <div class="hero-title highlight-font">
         {$ heroSettings.speakers.title $}
       </div>
-      <p class="hero-description">{$ heroSettings.speakers.description $}</p>
-      <p>
-        You can watch some of the highlights
+      <div class="hero-description">
+        Our inaugural conference was held March 22-24 and brought together speakers across four tracks: Ideas & Research, 
+        Arts & Communication, Entrepreneurship & Technology, and Activism & Governance.
+        </ul>
+      </div>
+      <p class="attention">
         <a href="https://www.youtube.com/channel/UCxRk8v1Wcxa1TIKTvqrtSOw/videos" target="_blank"
-          >here.</a
+          >Video Highlights</a
         >
       </p>
+      <p class="attention">
+          <a href="/schedule/" 
+            >Full Conference Agenda</a>
+        </p>
     </hero-block>
 
     <paper-progress indeterminate hidden$="[[contentLoaderVisibility]]"></paper-progress>
