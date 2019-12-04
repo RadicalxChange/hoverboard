@@ -47,8 +47,8 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
-        padding-bottom: 64px;
-        padding-top: 15vh;
+        padding: 0 25px 25px;
+        max-width: 500px;
       }
 
       .bottom {
@@ -56,15 +56,15 @@
       }
 
       .hero-logo {
-        max-width: 240px;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0 auto 30px;
       }
 
       .title {
         font-family: var(--major-font-family);
         margin: auto 0;
         margin-top: 0px;
-        font-size: 1.8em;
+        font-size: 2.4em;
         position: relative;
       }
 
@@ -192,10 +192,34 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 5vh;
+        justify-content: center;
       }
 
       .title {
+        text-align: center;
+      }
+
+      .conference-info h2, .conference-info h3 {
+        text-align: center;
+        color: var(--default-primary-color);
+      }
+
+      .conference-info h2 {
+        font-size: 3.3em;
+        font-weight: bold;
+        line-height: 60px;
+         margin-bottom: 20px;
+      }
+
+      .conference-info h3 {
+        font-size: 2.4em;
+      }
+
+      .conference-info h3:nth-of-type(2) {
+        line-height: 25px;
+      }
+
+      .conference-info p {
         text-align: center;
       }
 
@@ -233,13 +257,13 @@
       }
 
       @media (min-width: 812px) {
-        .title {
-          font-size: 2.5em;
-          margin-top: 10px;
+        .home-content {
+          margin-top: -50px;
         }
 
-        .hero-logo {
-          max-width: 400px;
+        .title {
+          font-size: 3em;
+          margin-top: 10px;
         }
 
         .info-items {
@@ -252,7 +276,6 @@
     </style>
 
     <polymer-helmet active="[[active]]"></polymer-helmet>
-
     <div class="full-height">
       <div class="home-content">
         <div class="title">RadicalxChange</div>
@@ -261,11 +284,10 @@
           srcset="/images/logo.gif"
           alt="{$ title $}"
         ></img>
-        <div class="info-items highlight-font">
-          <div class="info-items--quote">
-            {$ heroSettings.home.description1 $}
-            <i> {$ heroSettings.home.description2 $}</i>
-          </div>
+        <div class="conference-info">
+          <h2>2020 Conference</h2>
+          <h3>São Paulo, Brazil</h3><h3>June 18-20</h3>
+          <p>Details coming soon</p>
         </div>
       </div>
     </div>
