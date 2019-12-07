@@ -57,7 +57,7 @@
 
       .hero-logo {
         width: 100%;
-        margin: 0 auto 30px;
+        margin: 0 auto 0;
       }
 
       .title {
@@ -205,10 +205,10 @@
       }
 
       .conference-info h2 {
-        font-size: 3.3em;
+        font-size: 2.6em;
         font-weight: bold;
-        line-height: 60px;
-         margin-bottom: 20px;
+        line-height: 50px;
+        margin-bottom: 5px;
       }
 
       .conference-info h3 {
@@ -257,13 +257,18 @@
       }
 
       @media (min-width: 812px) {
+        .conference-info h2 {
+          font-size: 2.5em;
+          line-height: 60px;
+        }
+
         .home-content {
           margin-top: -50px;
         }
 
         .title {
-          font-size: 3em;
           margin-top: 10px;
+          line-height: 15px
         }
 
         .info-items {
@@ -271,6 +276,12 @@
           font-size: 22px;
           line-height: 1.1;
           max-width: 480px;
+        }
+      }
+
+      @media (min-width: 400px){
+        .title {
+          font-size: 3em;
         }
       }
     </style>
