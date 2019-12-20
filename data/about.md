@@ -31,7 +31,10 @@ A world where power rests in diverse democratic organizations.
  - **Social Justice Mission**: RadicalxChange is primarily devoted to achieving its social justice mission, rather than achieving the private goals of any member. RadicalxChange should not become a source of personal enrichment for any individual to the exclusion of the community.
  - **Respect**: RadicalxChange community members treat each other as epistemic and social equals and should aim to empathize with the intellectual and personal perspective each member of the community brings to the table.
 
-### [Handbook for Local Democracy](https://firebasestorage.googleapis.com/v0/b/hoverboard-site-prod.appspot.com/o/assets%2FThe_Handbook_for_Radical_Local_Democracy.pdf?alt=media&token=f2477df1-6394-4e6c-b092-afed3ba8571f)
+### References & Publications
+
+#### • [Handbook for Local Democracy](https://firebasestorage.googleapis.com/v0/b/hoverboard-site-prod.appspot.com/o/assets%2FThe_Handbook_for_Radical_Local_Democracy.pdf?alt=media&token=f2477df1-6394-4e6c-b092-afed3ba8571f)
+#### • [Data Freedom Act](https://firebasestorage.googleapis.com/v0/b/hoverboard-site-prod.appspot.com/o/assets%2FData%20Legislation%20Paper%20--%2020191031.pdf?alt=media&token=73243181-072d-4b96-8611-6f895b846210)
 
 ## Our Community
 
