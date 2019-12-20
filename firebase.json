@@ -29,7 +29,11 @@
           },
           {
             "key": "X-Frame-Options",
-            "value": "DENY"
+            "value": "ALLOW-FROM http://167.99.59.52"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "frame-src http://167.99.59.52 https://www.radicalxchange.org"
           },
           {
             "key": "X-XSS-Protection",
